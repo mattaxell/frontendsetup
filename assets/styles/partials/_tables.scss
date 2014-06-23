@@ -1,0 +1,16 @@
+table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+th {
+	padding: 5px;
+	background: $primary-brand-color;
+	color: #fff;
+}
+
+td {
+	padding: 5px;
+	border-bottom: 1px solid $light-grey;
+}

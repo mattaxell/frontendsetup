@@ -1,7 +1,7 @@
 .container {
 	position: relative;
 	width: 90%;
-	max-width: $site_width;
+	max-width: $site-width;
 	margin: auto;
 	@extend %clearfix;
 }
