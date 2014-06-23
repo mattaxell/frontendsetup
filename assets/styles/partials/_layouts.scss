@@ -1,0 +1,7 @@
+.container {
+	position: relative;
+	width: 90%;
+	max-width: $site_width;
+	margin: auto;
+	@extend %clearfix;
+}
