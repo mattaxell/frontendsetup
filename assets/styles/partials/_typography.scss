@@ -1,0 +1,19 @@
+body {
+	color: $base-text-color;
+	font: {
+		family: $body-font;
+		size: 100%;
+	}
+	line-height: $base-line-height;
+}
+
+a {
+	color: $primary-brand-color;
+	font-weight: $link-font-weight;
+	text-decoration: none;
+
+	&:hover {
+		color: $secondary-brand-color;
+		transition: all .5s ease;
+	}
+}
