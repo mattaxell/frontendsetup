@@ -10,5 +10,5 @@ $heading-font-weight: 700 !default;
 
 // Margins
 // ===================================
-$heading-margin: 0 0 20px;
-$p-margin: 0 0 15px;
+$heading-margin: 20px;
+$p-margin: $default-spacer;
