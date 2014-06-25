@@ -1,4 +1,18 @@
+!.gitignore
+!README.md
+
+# NPM
+node_modules
+
+# composer
+/vendor
+
+#theme
+public/*
+
+# generic
 .DS_Store
 .sass-cache
-node_modules
-vendor
+*.sublime*
+
+!.gitkeep
