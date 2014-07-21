@@ -1,7 +1,16 @@
 .container {
+    @extend %clearfix;
+
 	position: relative;
 	width: 90%;
 	max-width: $site-width;
 	margin: auto;
-	@extend %clearfix;
+}
+
+.group {
+    @extend %clearfix;
+
+    margin-right: $gutter/2;
+    margin-left: $gutter/2;
+
 }
