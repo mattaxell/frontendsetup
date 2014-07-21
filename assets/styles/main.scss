@@ -15,20 +15,11 @@
 @import "mixins/icons";
 
 // ===========================
-// Placeholders
-// ===========================
-
-@import "placeholders/forms";
-@import "placeholders/layout";
-@import "placeholders/misc";
-@import "placeholders/typography";
-
-// ===========================
 // Partials
 // ===========================
 
 @import "partials/reset";
-@import "partials/layouts";
+@import "partials/layout";
 @import "partials/typography";
 @import "partials/buttons";
 @import "partials/forms";
@@ -38,3 +29,12 @@
 @import "partials/navigation";
 @import "partials/footer";
 @import "partials/pages";
+
+// ===========================
+// Placeholders
+// ===========================
+
+@import "placeholders/forms";
+@import "placeholders/layout";
+@import "placeholders/misc";
+@import "placeholders/typography";

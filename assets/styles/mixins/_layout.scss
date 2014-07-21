@@ -1,5 +1,5 @@
 @mixin col($columns) {
-	width: 100% * ($columns / 12;
+	width: 100% * ($columns / 12);
 	float: left;
 	padding: $gutter / 2;
 }
