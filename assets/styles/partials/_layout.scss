@@ -6,11 +6,3 @@
 	max-width: $site-width;
 	margin: auto;
 }
-
-.group {
-    @extend %clearfix;
-
-    margin-right: $gutter/2;
-    margin-left: $gutter/2;
-
-}
