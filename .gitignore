@@ -9,6 +9,7 @@ node_modules
 
 #theme
 public/*
+index.html
 
 # generic
 .DS_Store
