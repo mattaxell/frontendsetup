@@ -1,0 +1,15 @@
+.btn--primary {
+    @include button(default,primary);
+}
+
+.btn--large--primary {
+    @include button(large,primary);
+}
+
+.btn--secondary {
+    @include button(default,secondary);
+}
+
+.btn--large--secondary {
+    @include button(large,secondary);
+}
