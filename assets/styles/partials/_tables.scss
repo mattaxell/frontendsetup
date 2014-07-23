@@ -6,8 +6,13 @@ table {
 
 th {
 	padding: 5px;
-	background: $primary-brand-color;
-	color: #fff;
+	background: $light-grey;
+	color: $base-text-color;
+    font: {
+        family: $heading-font;
+        weight: $heading-font-weight;
+    }
+    text-align: left;
 }
 
 td {

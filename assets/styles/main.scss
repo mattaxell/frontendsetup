@@ -1,9 +1,4 @@
 // ===========================
-// Jeet
-// ===========================
-@import "jeet/index";
-
-// ===========================
 // Variables
 // ===========================
 
@@ -17,9 +12,13 @@
 
 @import "mixins/breakpoints";
 @import "mixins/helpers";
-@import "mixins/layout";
 @import "mixins/icons";
 @import "mixins/buttons";
+
+// ===========================
+// Jeet
+// ===========================
+@import "jeet/index";
 
 // ===========================
 // Partials
@@ -36,6 +35,7 @@
 @import "partials/navigation";
 @import "partials/footer";
 @import "partials/pages";
+@import "partials/misc";
 
 // ===========================
 // Placeholders

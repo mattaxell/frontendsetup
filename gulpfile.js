@@ -1,13 +1,13 @@
+// Dependencies
 var gulp = require('gulp'),
     // CSS stuff
     compass = require('gulp-compass'),
     autoprefix = require('gulp-autoprefixer'),
-    minifycss = require('gulp-minify-css'),
+    minify = require('gulp-minify-css'),
     // Javascript stuff
     uglify = require('gulp-uglify'),
     strip = require('gulp-strip-debug'),
     concat = require('gulp-concat'),
-    rename = require('gulp-rename'),
     // Images
     imagemin = require('gulp-imagemin'),
     cache = require('gulp-cache'),
@@ -18,38 +18,51 @@ var gulp = require('gulp'),
     // Live reload
     livereload = require('gulp-livereload'),
     lr = require('tiny-lr'),
-    server = lr(),
-    // Assets
-    assetsDir = 'assets/',
-    // Scss
-    scssDir = 'assets/styles',
-    targetCssDir = 'public/css',
-    // Javascripts
-    jsDir = 'assets/js',
-    targetJsDir = 'public/js',
-    // Images
-    compassImgDir = 'assets/img'
-    imgDir = 'assets/img/*.*',
-    targetImgDir = 'public/img';
+    server = lr();
+
+// Assets
+var paths = {
+    assets: {
+        styles: {
+            dir: 'assets/styles',
+            files: 'assets/styles/**/**/*.scss'
+        },
+        js: {
+            dir: 'assets/js/',
+            files: 'assets/js/**/*.js',
+            filesToWatch: 'assets/js/**/*.js'
+        },
+        img: {
+            dir: 'assets/img',
+            files: 'assets/img/**/*'
+        }
+    },
+    public: {
+        styles: 'public/css',
+        js: 'public/js',
+        img: 'public/img',
+    }
+}
 
 //
-// Compass/Scss task
+// Styles task
 // -----------------
 // Grabs everything inside the styles & sprites directories, concantinates
 // and compiles scss, builds sprites, and then outputs them to their
 // respective target directories.
 //
-gulp.task('compass', function() {
-    gulp.src(scssDir + '/**/*.scss')
+
+gulp.task('styles', function() {
+    gulp.src(paths.assets.styles.files)
         .pipe(compass({
             config_file: './config.rb',
-            sass: scssDir,
-            css: targetCssDir,
-            image: compassImgDir
+            sass: paths.assets.styles.dir,
+            css: paths.public.styles,
+            image: paths.assets.img.dir
         }))
-        .pipe(autoprefix('last 4 version'))
-        .pipe(gulp.dest(targetCssDir))
-        .pipe(notify('CSS successfully compiled'));
+        .pipe(autoprefix('last 10 version'))
+        .pipe(gulp.dest(paths.public.styles))
+        .pipe(notify('Styles task complete.'));
 });
 
 //
@@ -58,13 +71,12 @@ gulp.task('compass', function() {
 // Grabs everything inside the js directory, concantinates and minifies,
 // and then outputs them to the target directory.
 //
+
 gulp.task('js', function() {
-    gulp.src([jsDir + '/main.js', jsDir + '/**/*.js'])
+    gulp.src(paths.assets.js.files)
         .pipe(concat('main.min.js'))
-        .pipe(strip())
-        .pipe(uglify())
-        .pipe(gulp.dest(targetJsDir))
-        .pipe(notify('JS successfully compiled'));
+        .pipe(gulp.dest(paths.public.js))
+        .pipe(notify('JS task complete.'));
 });
 
 //
@@ -73,21 +85,23 @@ gulp.task('js', function() {
 // Grabs everything inside the img directory, optimises each image,
 // and then outputs them to the target directory.
 //
+
 gulp.task('img', function() {
-    gulp.src(imgDir)
+    gulp.src(paths.assets.img.files)
         .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
-        .pipe(gulp.dest(targetImgDir))
-        .pipe(notify('Images successfully optimized'));
+        .pipe(gulp.dest(paths.public.img));
 });
 
 //
 // Cleaner task
 // ------------
-// This simply deletes everything inside /public.
+// This simply deletes all of the main assets folders.
 //
+
 gulp.task('clean', function() {
-  return gulp.src([targetCssDir, targetJsDir, targetImgDir], {read: false})
-    .pipe(clean());
+  return gulp.src([paths.public.styles, paths.public.js, paths.public.img], {read: false})
+    .pipe(clean())
+    .pipe(notify('Cleaning task complete.'));
 });
 
 //
@@ -96,11 +110,14 @@ gulp.task('clean', function() {
 // Watches the different directores for changes and then
 // runs their relevant tasks and livereloads.
 //
+
 gulp.task('watch', function() {
-    gulp.watch(scssDir + '/**/*.scss', ['compass']);
-    gulp.watch(jsDir + '/**/*.js', ['js']);
-    gulp.watch(imgDir, ['img']);
+    // Run the appropriate task when assets change
+    gulp.watch(paths.assets.styles.files, ['styles']);
+    gulp.watch(paths.assets.js.filesToWatch, ['js']);
+    gulp.watch(paths.assets.img.files, ['img']);
     var server = livereload();
+    // Refresh the browser when anything changes
     gulp.watch('*').on('change', function(file) {
         server.changed(file.path);
     });
@@ -111,15 +128,37 @@ gulp.task('watch', function() {
 // -----------
 // Runs all of the main tasks, without activating livereload.
 //
+
 gulp.task('deploy', ['clean'], function() {
-    gulp.start('compass', 'js', 'img');
+    // Run the styles task, but minify the output
+    gulp.src(paths.assets.styles.files)
+        .pipe(compass({
+            config_file: './config.rb',
+            sass: paths.assets.styles.dir,
+            css: paths.public.styles,
+            image: paths.assets.img.dir
+        }))
+        .pipe(autoprefix('last 4 version'))
+        .pipe(minify())
+        .pipe(gulp.dest(paths.public.styles));
+
+    // Run the JS task, but strip out debugging code and the uglify it
+    gulp.src(paths.assets.js.files)
+        .pipe(concat('main.min.js'))
+        .pipe(strip())
+        .pipe(uglify())
+        .pipe(gulp.dest(paths.public.js));
+
+    // Run the image task
+    gulp.start('img');
 });
 
 //
-// Defualt task
+// Default task
 // ------------
 // Runs every task, and then watches files for changes.
 //
+
 gulp.task('default', ['clean'], function() {
-    gulp.start('compass', 'js', 'img', 'watch');
+    gulp.start('styles', 'js', 'img', 'watch');
 });

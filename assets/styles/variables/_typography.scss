@@ -2,7 +2,7 @@
 // Generic Font Declatarions
 // =============================================================================
 
-$sans-serif: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $serif: Georgia, Times, serif;
 
 // =============================================================================
@@ -10,12 +10,12 @@ $serif: Georgia, Times, serif;
 // =============================================================================
 
 $body-font: null;
-$body-font: $sans-serif !default;
+$body-font: $sans !default;
 $base-line-height: 1.5;
 $link-font-weight: 400;
 
 $heading-font: null;
-$heading-font: $sans-serif !default;
+$heading-font: $sans !default;
 $heading-font-weight: 700 !default;
 
 // =============================================================================
