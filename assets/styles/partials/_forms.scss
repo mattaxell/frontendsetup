@@ -1,0 +1,60 @@
+// ==================================
+    // Inputs & Labels
+// ==================================
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+textarea {
+    width: 100%;
+    padding: $default-spacer;
+    border: 1px solid $light-grey;
+    border-radius: 3px;
+    font: {
+        family: $sans;
+        size: 0.875em;
+    }
+
+    &:focus,
+    &:hover {
+        outline: none;
+        border: 1px solid darken($light-grey,10%);
+        transition: .3s ease;
+    }
+}
+
+input[type="submit"] {
+    @include button(large,primary);
+}
+
+label {
+    display: block;
+    margin: 0 0 5px;
+}
+
+// ==================================
+    // Alerts
+// ==================================
+
+.alert {
+    display: inline-block;
+    padding: $default-spacer;
+    border-radius: 4px;
+    line-height: 1;
+
+    &--error {
+        @extend .alert;
+
+        background: $error;
+        border: 1px solid darken($error,5%);
+        color: darken($error,50%);
+    }
+
+    &--ok {
+        @extend .alert;
+
+        background: $ok;
+        border: 1px solid darken($ok,10%);
+        color: darken($ok,60%);
+    }
+}
