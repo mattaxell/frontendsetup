@@ -42,3 +42,15 @@
 	line-height: $size;
 	text-align: center;
 }
+
+// ==================================
+
+	// Hide Text
+
+// ==================================
+
+@mixin hide-text {
+	display: block;
+	text-align: left;
+	text-indent: -9999px;
+}
