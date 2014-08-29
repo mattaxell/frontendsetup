@@ -1,7 +1,7 @@
 // Dependencies
 var gulp = require('gulp'),
     // CSS stuff
-    compass = require('gulp-compass'),
+    sass = require('gulp-sass'),
     autoprefix = require('gulp-autoprefixer'),
     minify = require('gulp-minify-css'),
     // Javascript stuff
@@ -25,12 +25,16 @@ var paths = {
     assets: {
         styles: {
             dir: 'assets/styles',
-            files: 'assets/styles/**/**/*.scss'
+            files: 'assets/styles/**/*.scss'
         },
         js: {
             dir: 'assets/js/',
-            files: 'assets/js/**/*.js',
-            filesToWatch: 'assets/js/**/*.js'
+            files: [
+                'assets/js/src/**/*.js',
+                'assets/js/vendor/**/*.js',
+                'assets/js/main.js'
+            ],
+            filesToWatch: 'assets/js/src/**/*.js',
         },
         img: {
             dir: 'assets/img',
@@ -38,9 +42,16 @@ var paths = {
         }
     },
     public: {
-        styles: 'public/css',
+        styles: 'public/styles',
         js: 'public/js',
         img: 'public/img',
+    }
+}
+
+// General settings
+var settings = {
+    autoprefix: {
+        versions: 'last 10 version'
     }
 }
 
@@ -54,13 +65,8 @@ var paths = {
 
 gulp.task('styles', function() {
     gulp.src(paths.assets.styles.files)
-        .pipe(compass({
-            config_file: './config.rb',
-            sass: paths.assets.styles.dir,
-            css: paths.public.styles,
-            image: paths.assets.img.dir
-        }))
-        .pipe(autoprefix('last 10 version'))
+        .pipe(sass())
+        .pipe(autoprefix(settings.autoprefix.versions))
         .pipe(gulp.dest(paths.public.styles))
         .pipe(notify('Styles task complete.'));
 });
@@ -90,6 +96,16 @@ gulp.task('img', function() {
     gulp.src(paths.assets.img.files)
         .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
         .pipe(gulp.dest(paths.public.img));
+});
+
+//
+// Cache-buster task
+// -----------------
+// Completely clear the cache to stop image-min outputting oncorrect image names etc
+//
+
+gulp.task('clear', function (done) {
+    return cache.clearAll(done);
 });
 
 //
@@ -132,13 +148,8 @@ gulp.task('watch', function() {
 gulp.task('deploy', ['clean'], function() {
     // Run the styles task, but minify the output
     gulp.src(paths.assets.styles.files)
-        .pipe(compass({
-            config_file: './config.rb',
-            sass: paths.assets.styles.dir,
-            css: paths.public.styles,
-            image: paths.assets.img.dir
-        }))
-        .pipe(autoprefix('last 4 version'))
+        .pipe(sass())
+        .pipe(autoprefix(settings.autoprefix.versions))
         .pipe(minify())
         .pipe(gulp.dest(paths.public.styles));
 
