@@ -25,7 +25,11 @@ var paths = {
     assets: {
         styles: {
             dir: 'assets/styles',
-            files: 'assets/styles/**/*.scss'
+            files: [
+                'assets/styles/**/*.scss',
+                '!assets/styles/login.scss'
+            ],
+            login: 'assets/styles/login.scss'
         },
         js: {
             dir: 'assets/js/',
@@ -65,6 +69,18 @@ var settings = {
 
 gulp.task('styles', function() {
     gulp.src(paths.assets.styles.files)
+        .pipe(sass())
+        .pipe(autoprefix(settings.autoprefix.versions))
+        .pipe(gulp.dest(paths.public.styles))
+        .pipe(notify('Styles task complete.'));
+});
+
+//
+// Login styles task
+// -----------------
+
+gulp.task('login-styles', function() {
+    gulp.src(paths.assets.styles.login)
         .pipe(sass())
         .pipe(autoprefix(settings.autoprefix.versions))
         .pipe(gulp.dest(paths.public.styles))
@@ -130,7 +146,7 @@ gulp.task('clean', function() {
 gulp.task('watch', function() {
     // Run the appropriate task when assets change
     gulp.watch(paths.assets.styles.files, ['styles']);
-    gulp.watch(paths.assets.js.filesToWatch, ['js']);
+    gulp.watch(paths.assets.js.files, ['js']);
     gulp.watch(paths.assets.img.files, ['img']);
     var server = livereload();
     // Refresh the browser when anything changes
@@ -148,6 +164,13 @@ gulp.task('watch', function() {
 gulp.task('deploy', ['clean'], function() {
     // Run the styles task, but minify the output
     gulp.src(paths.assets.styles.files)
+        .pipe(sass())
+        .pipe(autoprefix(settings.autoprefix.versions))
+        .pipe(minify())
+        .pipe(gulp.dest(paths.public.styles));
+
+    // Login styles
+    gulp.src(paths.assets.styles.login)
         .pipe(sass())
         .pipe(autoprefix(settings.autoprefix.versions))
         .pipe(minify())
