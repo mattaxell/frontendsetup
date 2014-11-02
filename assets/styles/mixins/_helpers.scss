@@ -37,6 +37,7 @@
 // ==================================
 
 @mixin square($size) {
+	display: block;
 	height: $size;
 	width: $size;
 	line-height: $size;

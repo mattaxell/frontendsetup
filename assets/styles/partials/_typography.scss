@@ -1,8 +1,4 @@
-@if $icon-set == "FontAwesome" {
-	@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
-} @elseif $icon-set == "Ionicons" {
-	@import url(http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css);
-}
+@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
 
 body {
 	color: $base-text-color;
