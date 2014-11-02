@@ -1,3 +1,10 @@
 .container {
-    @include center(960px);
+    @include center($site-width);
+    @extend %clearfix;
+
+    position: relative;
+
+    @include bp($site-width) {
+    	padding: 0 $gutter;
+    }
 }
