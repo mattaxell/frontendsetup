@@ -35,36 +35,32 @@ p {
 	margin: 0 0 $p-margin;
 }
 
-.lead {
-	color: $secondary-brand-color;
-	font: {
-		family: $heading-font;
-		size: 1.5em;
-		weight: 400;
-	}
-}
+blockquote {
 
-blockquote p {
-	color: lighten($base-text-color,20%);
-	font: {
-		family: $serif;
-		size: 1.25em;
-		style: italic;
-		weight: 400;
-	}
-	line-height: 1.75;
-
-	@include bp(x-small) {
+	p {
+		color: lighten($base-text-color,20%);
 		font: {
-			size: 1em;
+			family: $serif;
+			size: 1.25em;
+			style: italic;
+			weight: 400;
+		}
+		line-height: 1.75;
+
+		@include bp(x-small) {
+			font: {
+				size: 1em;
+			}
 		}
 	}
-}
 
-cite {
-	color: $secondary-brand-color;
-	font: {
-		size: 1em;
-		weight: 400;
+	cite {
+		color: $secondary-brand-color;
+		font: {
+			size: 1em;
+			weight: 400;
+			style: normal;
+		}
 	}
+
 }
