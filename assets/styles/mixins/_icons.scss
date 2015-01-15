@@ -2,9 +2,16 @@
 // Font Awesome Icons
 // =============================================================================
 
-@mixin fa-icon($icon) {
-    &:before {
+@mixin fa-icon($icon, $position: before, $padding: 0) {
+    &:#{$position} {
         display: inline-block;
+        @if $padding not 0 {
+            @if $position == "before" {
+                padding-right: $padding;
+            } @elseif $position == "after" {
+                padding-left: $padding;
+            }
+        }
         font-family: FontAwesome;
         font-style: normal;
         font-weight: normal;
