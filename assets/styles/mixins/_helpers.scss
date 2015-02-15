@@ -1,8 +1,5 @@
-// ==================================
-
-	// Retina Images
-
-// ==================================
+// Retina Images
+// ============= //
 
 @mixin image-2x($image, $width, $height) {
 	@media (min--moz-device-pixel-ratio: 1.3),
@@ -16,11 +13,8 @@
 	}
 }
 
-// ==================================
-
-	// Background Size
-
-// ==================================
+// Background Size
+// =============== //
 
 @mixin background-size($value) {
 	background-size: $value;
@@ -28,13 +22,9 @@
 	background-position: center center;
 }
 
-// ==================================
-
-	// Square Objects
-	// ==============
-	// Define 1 value to make element same width/height and vertically center any text/icon with line-height
-
-// ==================================
+// Square Objects
+// ============== //
+// Define 1 value to make element same width/height and vertically center any text/icon with line-height
 
 @mixin square($size) {
 	display: block;
@@ -44,14 +34,22 @@
 	text-align: center;
 }
 
-// ==================================
-
-	// Hide Text
-
-// ==================================
+// Hide Text
+// ========= //
 
 @mixin hide-text {
 	display: block;
 	text-align: left;
 	text-indent: -9999px;
+}
+
+// Reset Jeets Align mixin
+// ==================================
+@mixin reset-align {
+	position: relative;
+	top: auto;
+	bottom: auto;
+	left: auto;
+	right: auto;
+	transform: none;
 }
