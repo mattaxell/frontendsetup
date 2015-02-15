@@ -11,6 +11,10 @@
 		color: $primary-brand-color;
 		font-weight: $heading-font-weight;
 	}
+
+	@include bp(x-small) {
+		margin: 0 0 $heading-margin/1.5;
+	}
 }
 
 %h6 {
@@ -21,12 +25,66 @@
 	}
 }
 
-%h1 { font-size: 2em; }
-%h2 { font-size: 1.75em; }
-%h3 { font-size: 1.5em; }
-%h4 { font-size: 1.25em; }
-%h5 { font-size: 1.125em; }
-%h6 { font-size: 1em; }
+%h1 {
+	font-size: 2em;
+
+	@include bp(small) {
+		font-size: 1.75em;
+	}
+
+	@include bp(x-small) {
+		font-size: 1.5em;
+	}
+}
+
+%h2 {
+	font-size: 1.75em;
+
+	@include bp(small) {
+		font-size: 1.5em;
+	}
+
+	@include bp(x-small) {
+		font-size: 1.25em;
+	}
+}
+
+%h3 {
+	font-size: 1.5em;
+
+	@include bp(small) {
+		font-size: 1.25em;
+	}
+
+	@include bp(x-small) {
+		font-size: 1.125em;
+	}
+}
+
+%h4 {
+	font-size: 1.25em;
+
+	@include bp(small) {
+		font-size: 1.125em;
+	}
+}
+
+%h5 {
+	font-size: 1.125em;
+
+	@include bp(small) {
+		font-size: 1em;
+	}
+}
+
+%h6 {
+	font-size: 1em;
+
+	@include bp(x-small) {
+		font-size: .875em;
+	}
+}
+
 
 %hide-text {
 	display: inline-block;

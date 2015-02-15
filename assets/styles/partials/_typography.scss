@@ -9,17 +9,19 @@ body {
 	line-height: $base-line-height;
 }
 
+// Links
 a {
-	color: $primary-brand-color;
+	color: $link-color;
 	font-weight: $link-font-weight;
 	text-decoration: none;
 
 	&:hover {
-		color: $secondary-brand-color;
+		color: $link-hover-color;
 		transition: all .5s ease;
 	}
 }
 
+// Headings
 h1 { @extend %h1; }
 h2 { @extend %h2; }
 h3 { @extend %h3; }
@@ -31,11 +33,22 @@ h6 { @extend %h6; }
 	margin: 0 0 $heading-margin*2;
 }
 
-p {
+// Margins
+p,
+ul,
+ol,
+table {
 	margin: 0 0 $p-margin;
+
+	@include bp(x-small) {
+		margin: 0 0 $p-margin/1.5;
+		font-size: .875em;
+	}
 }
 
+// Blockquotes
 blockquote {
+	margin: $heading-margin;
 
 	p {
 		color: lighten($base-text-color,20%);

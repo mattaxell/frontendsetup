@@ -1,0 +1,28 @@
+// Layout
+// ====== //
+
+$site-width: 1060px;
+$gutter: 50px;
+
+$mobile-nav-breakpoint: 900px;
+$mobile-gutter: 30px;
+
+$default-spacer: 15px;
+
+// Site Specific Colours
+// ===================== //
+
+$base-text-color: #555555;
+
+$primary-brand-color: #222F40;
+$secondary-brand-color: #41A6A6;
+$alt-brand-color: #75BF95;
+
+$primary-brand-color-text: $white;
+$primary-brand-color-comp: $alt-brand-color;
+
+$secondary-brand-color-text: $white;
+$secondary-brand-color-comp: $alt-brand-color;
+
+$alt-brand-color-text: $white;
+$alt-brand-color-comp: $secondary-brand-color;
