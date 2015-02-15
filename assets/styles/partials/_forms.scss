@@ -6,21 +6,7 @@ input[type="text"],
 input[type="email"],
 input[type="url"],
 textarea {
-    width: 100%;
-    padding: $default-spacer;
-    border: 1px solid $light-grey;
-    border-radius: 3px;
-    font: {
-        family: $sans;
-        size: 0.875em;
-    }
-
-    &:focus,
-    &:hover {
-        outline: none;
-        border: 1px solid darken($light-grey,10%);
-        transition: .3s ease;
-    }
+    @extend %input;
 }
 
 input[type="submit"] {
@@ -39,22 +25,22 @@ label {
 .alert {
     display: inline-block;
     padding: $default-spacer;
-    border-radius: 4px;
+    border-radius: 2px;
     line-height: 1;
 
     &--error {
         @extend .alert;
 
-        background: $error;
-        border: 1px solid darken($error,5%);
-        color: darken($error,50%);
+        background: $alert-error;
+        border: 1px solid darken($alert-error,5%);
+        color: darken($alert-error,50%);
     }
 
     &--ok {
         @extend .alert;
 
-        background: $ok;
-        border: 1px solid darken($ok,10%);
-        color: darken($ok,60%);
+        background: $alert-ok;
+        border: 1px solid darken($alert-ok,10%);
+        color: darken($alert-ok,60%);
     }
 }
