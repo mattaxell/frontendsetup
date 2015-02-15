@@ -8,12 +8,17 @@ node_modules
 /vendor
 
 #theme
-public/*
 index.html
+
+# assets
+/public/styles
+/public/js
+/public/img
+/public/cache
 
 # generic
 .DS_Store
 .sass-cache
 *.sublime*
-
+_deploy
 !.gitkeep
