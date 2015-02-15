@@ -1,0 +1,17 @@
+%input {
+	width: 100%;
+    padding: $default-spacer;
+    border: 1px solid $light-grey;
+    border-radius: 2px;
+    font: {
+        family: $sans;
+        size: 0.875em;
+    }
+
+    &:focus,
+    &:hover {
+        outline: none;
+        border: 1px solid darken($light-grey,10%);
+        transition: .3s ease;
+    }
+}
