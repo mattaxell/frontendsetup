@@ -1,10 +1,29 @@
-// =============================================================================
+// Generic Icon
+// ============ //
+@mixin icon($icon: null, $position: before) {
+    &:#{$position} {
+        content: $icon;
+        display: inline-block;
+        font: {
+            style: normal;
+            weight: normal;
+        }
+        line-height: 1;
+        text-decoration: inherit;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
 // Font Awesome Icons
-// =============================================================================
+// ================== //
 
 @mixin fa-icon($icon, $position: before, $padding: 0) {
     &:#{$position} {
         display: inline-block;
+        font-family: FontAwesome;
+        content: $icon;
+
         @if $padding not 0 {
             @if $position == "before" {
                 padding-right: $padding;
@@ -12,44 +31,31 @@
                 padding-left: $padding;
             }
         }
-        font-family: FontAwesome;
-        font-style: normal;
-        font-weight: normal;
-        line-height: 1;
-        text-decoration: inherit;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        content: $icon;
     }
 }
 
-@mixin fa-list($icon, $color: inherit) {
+@mixin fa-list($icon, $color: null, $spacing: -2.14285714em) {
     padding-left: 0;
-    margin-left: 2.14285714em;
+    margin-left: $spacing;
     list-style-type: none;
 
     li {
-      position: relative;
-    }
+        @include icon($icon);
 
-    li:before {
-        content: $icon;
-        position: absolute;
-        left: -2.14285714em;
-        width: 2.14285714em;
-        top: 0.14285714em;
-        text-align: center;
-        display: inline-block;
-        color: $color;
-        font-family: FontAwesome;
-        font-style: normal;
-        font-weight: normal;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+        position: relative;
+
+        &:before {
+            position: absolute;
+            left: $spacing;
+            top: 0.14285714em;
+            width: $spacing;
+            color: $color;
+            font-family: FontAwesome;
+        }
     }
 }
 
+// Icons
 $fa-adjust: "\f042";
 $fa-adn: "\f170";
 $fa-align-center: "\f037";
