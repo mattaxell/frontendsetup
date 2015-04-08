@@ -1,30 +1,24 @@
-// ===========================
 // Variables
-// ===========================
-
+// ========= //
 @import "variables/colors";
 @import "variables/config";
 @import "variables/typography";
 
-// ===========================
 // Mixins
-// ===========================
-
+// ====== //
 @import "mixins/breakpoints";
+@import "mixins/layout";
 @import "mixins/helpers";
 @import "mixins/icons";
 @import "mixins/buttons";
 @import "mixins/gradients";
 
-// ===========================
 // Vendor
-// ===========================
+// ====== //
 @import "vendor/jeet/index";
 
-// ===========================
 // Partials
-// ===========================
-
+// ======== //
 @import "partials/reset";
 @import "partials/layout";
 @import "partials/typography";
@@ -38,11 +32,8 @@
 @import "partials/pages";
 @import "partials/misc";
 
-// ===========================
 // Placeholders
-// ===========================
-
+// ============ //
 @import "placeholders/forms";
-@import "placeholders/layout";
 @import "placeholders/misc";
 @import "placeholders/typography";
