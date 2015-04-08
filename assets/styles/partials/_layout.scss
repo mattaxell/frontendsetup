@@ -1,14 +1,14 @@
 .container {
+    @include clearfix;
     @include center($site-width);
-    @extend %clearfix;
 
     position: relative;
 
-    @include bp($site-width + ($gutter*2)) {
+    @include bp($site-width-bg) {
     	padding: 0 $gutter;
     }
 
-    @include bp(x-small) {
+    @include bp($mobile) {
     	padding: 0 $mobile-gutter;
     }
 }
