@@ -1,17 +1,19 @@
 // Layout
 // ====== //
-
 $site-width: 1060px;
 $gutter: 50px;
-
-$mobile-nav-breakpoint: 900px;
 $mobile-gutter: 30px;
-
 $default-spacer: 15px;
+
+// Breakpoints
+// =========== //
+$site-width-bg: ($site-width + ($gutter*2));
+$tablet-l: 1024px;
+$tablet-p: 768px;
+$mobile: 767px;
 
 // Site Specific Colours
 // ===================== //
-
 $base-text-color: #555555;
 
 $primary-brand-color: #222F40;
