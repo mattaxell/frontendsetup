@@ -1,0 +1,91 @@
+// Layout
+// ====== //
+$site-width: 1060px;
+$gutter: 50px;
+$mobile-gutter: 30px;
+$default-spacer: 15px;
+
+// Breakpoints
+// =========== //
+$site-width-bg: ($site-width + ($gutter*2));
+$huge: 1600px;
+$large: 1200px;
+$medium: 1024px;
+$small: 768px;
+$xsmall: 560px;
+
+// Colors
+// ====== //
+
+// Generic Colour Values
+$red: #9c363c;
+$blue: #2c5a93;
+$white: #fff;
+$black: #231f20;
+$yellow: #e1d148;
+$green: #34a36a;
+$orange: #e44e36;
+$light-grey: #e4e4e4;
+
+$alert-ok: #edfdd3;
+$alert-error: #ffe6e3;
+
+// Useful Brand Colours
+$facebook: #3b5998;
+$twitter: #00aced;
+$instagram: #517fa4;
+$googleplus: #dd4b39;
+
+// Site Specific Colours
+$base-text-color: #555555;
+
+$primary-brand-color: #222F40;
+$secondary-brand-color: #41A6A6;
+$alt-brand-color: #75BF95;
+
+$primary-brand-color-text: $white;
+$primary-brand-color-comp: $alt-brand-color;
+
+$secondary-brand-color-text: $white;
+$secondary-brand-color-comp: $alt-brand-color;
+
+$alt-brand-color-text: $white;
+$alt-brand-color-comp: $secondary-brand-color;
+
+// Typography
+// ========== //
+
+// Generic Font Declatarions
+$sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$serif: Georgia, Times, serif;
+
+// Site Specific Font Styles
+$body-font: $sans;
+$body-font-bold: 700;
+$display-font: $sans;
+$display-font-bold: 700;
+
+$base-line-height: 1.5;
+
+// Headings
+$heading-font: $display-font;
+$heading-font-weight: $display-font-bold;
+$h1-color: $primary-brand-color;
+$h2-color: $primary-brand-color;
+$h3-color: $primary-brand-color;
+$h4-color: $primary-brand-color;
+$h5-color: $primary-brand-color;
+$h6-color: $primary-brand-color;
+
+// Links
+$link-font-weight: $body-font-bold;
+$link-color: $primary-brand-color;
+$link-hover-color: $secondary-brand-color;
+
+// Buttons
+$button-font: $display-font;
+$button-font-weight: $display-font-bold;
+
+// Margins
+$h-margin: 30px;
+$p-margin: 20px;

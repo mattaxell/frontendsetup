@@ -1,0 +1,131 @@
+// Breakpoints
+// =========== //
+
+@mixin bp($point, $type: width) {
+    @if $type == "width" { @media (max-width: $point) { @content; }}
+    @elseif $type == "height" { @media (max-height: $point) { @content; }}
+}
+
+// Layout
+// ====== //
+
+// Clearfix
+@mixin clearfix {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+// Absolutely position element
+@mixin position($top: null, $left: null, $bottom: null, $right: null) {
+    position: absolute;
+    top: $top;
+    bottom: $bottom;
+    right: $right;
+    left: $left;
+}
+
+// Reset Any Alignment
+@mixin reset-align($transform: true) {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+
+    @if $transform {
+        transform: none;
+    }
+}
+
+// Shapes
+// ====== //
+
+// Square
+@mixin square($size, $corners: null) {
+    display: block;
+    height: $size;
+    width: $size;
+    border-radius: $corners;
+    line-height: $size;
+    text-align: center;
+}
+
+// Circle
+@mixin circle($size) {
+    @include square($size);
+
+    border-radius: 50%;
+}
+
+// Gradients
+// ========= //
+
+// Simple horizontal gradient
+@mixin gradient-h($from, $to, $start: 0%, $finish: 100%) {
+    background: $from;
+    background: linear-gradient(to right,  $from $start,$to $finish);
+}
+
+// Simple horizontal gradient
+@mixin gradient-v($from, $to, $start: 0%, $finish: 100%) {
+    background: $from;
+    background: linear-gradient(to bottom,  $from $start,$to $finish);
+}
+
+// Typography
+// ========== //
+
+// Headings
+@mixin heading($color: null) {
+    margin: 0 0 $h-margin;
+    color: $color;
+    font: {
+        family: $heading-font;
+        weight: $heading-font-weight;
+    }
+
+    @include bp($xsmall) {
+        margin: 0 0 $p-margin;
+    }
+}
+
+@mixin heading-size($size, $line-height: $base-line-height) {
+    font-size: $size;
+    line-height: $line-height;
+}
+
+// Lists
+@mixin plain-list {
+    padding: 0;
+    list-style: none;
+}
+
+// Icons
+// ===== //
+
+@mixin icon($icon: null, $position: before, $padding: 0, $color: null) {
+    &:#{$position} {
+        content: $icon;
+        display: inline-block;
+        color: $color;
+        font: {
+            style: normal;
+            weight: normal;
+        }
+        line-height: 1;
+        text-decoration: inherit;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        @if $padding not 0 {
+            @if $position == "before" {
+                padding-right: $padding;
+            } @elseif $position == "after" {
+                padding-left: $padding;
+            }
+        }
+    }
+}

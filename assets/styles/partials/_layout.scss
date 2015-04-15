@@ -8,7 +8,7 @@
     	padding: 0 $gutter;
     }
 
-    @include bp($mobile) {
+    @include bp($xsmall) {
     	padding: 0 $mobile-gutter;
     }
 }

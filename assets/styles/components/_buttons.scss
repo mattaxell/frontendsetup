@@ -2,8 +2,8 @@
 	display: inline-block;
 	border-radius: 2px;
 	font: {
-		family: $heading-font;
-		weight: $heading-font-weight;
+		family: $button-font;
+		weight: $button-font-weight;
 	}
 	text-transform: uppercase;
 
@@ -24,7 +24,7 @@
 		font-size: 1.125em;
 		line-height: 60px;
 
-		@include bp(x-small) {
+		@include bp($xsmall) {
 			height: 40px;
 			padding: 0 30px;
 			font-size: .875em;

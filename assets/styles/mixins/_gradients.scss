@@ -1,9 +1,0 @@
-@mixin gradient-h($from, $to, $start: 0%, $finish: 100%) {
-    background: $from;
-    background: linear-gradient(to right,  $from $start,$to $finish);
-}
-
-@mixin gradient-v($from, $to, $start: 0%, $finish: 100%) {
-    background: $from;
-    background: linear-gradient(to bottom,  $from $start,$to $finish);
-}

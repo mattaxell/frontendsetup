@@ -1,39 +1,22 @@
-// Variables
-// ========= //
-@import "variables/colors";
-@import "variables/config";
-@import "variables/typography";
-
-// Mixins
-// ====== //
-@import "mixins/breakpoints";
-@import "mixins/layout";
-@import "mixins/helpers";
-@import "mixins/icons";
-@import "mixins/buttons";
-@import "mixins/gradients";
-
-// Vendor
-// ====== //
 @import "vendor/jeet/index";
+@import "vendor/font-awesome";
 
-// Partials
-// ======== //
-@import "partials/reset";
+@import "utils/variables";
+@import "utils/functions";
+@import "utils/mixins";
+@import "utils/helpers";
+
+@import "base/reset";
+@import "base/typography";
+
 @import "partials/layout";
-@import "partials/typography";
-@import "partials/buttons";
-@import "partials/forms";
-@import "partials/lists";
-@import "partials/tables";
-@import "partials/header";
 @import "partials/navigation";
+@import "partials/header";
 @import "partials/footer";
-@import "partials/pages";
-@import "partials/misc";
 
-// Placeholders
-// ============ //
-@import "placeholders/forms";
-@import "placeholders/misc";
-@import "placeholders/typography";
+@import "components/buttons";
+@import "components/forms";
+@import "components/lists";
+@import "components/tables";
+
+@import "pages/home";

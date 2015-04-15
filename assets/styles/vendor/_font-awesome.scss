@@ -1,61 +1,40 @@
-// Generic Icon
-// ============ //
-@mixin icon($icon: null, $position: before) {
-    &:#{$position} {
-        content: $icon;
-        display: inline-block;
-        font: {
-            style: normal;
-            weight: normal;
-        }
-        line-height: 1;
-        text-decoration: inherit;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-}
+// Mixins
+// ==================== //
 
-// Font Awesome Icons
-// ================== //
-
-@mixin fa-icon($icon, $position: before, $padding: 0) {
+@mixin fa-icon($icon: null, $position: before) {
     &:#{$position} {
-        display: inline-block;
         font-family: FontAwesome;
         content: $icon;
-
-        @if $padding not 0 {
-            @if $position == "before" {
-                padding-right: $padding;
-            } @elseif $position == "after" {
-                padding-left: $padding;
-            }
-        }
     }
 }
 
-@mixin fa-list($icon, $color: null, $spacing: -2.14285714em) {
+// Lists
+@mixin fa-list($icon: null, $color: null) {
     padding-left: 0;
-    margin-left: $spacing;
+    margin-left: 2.14285714em;
     list-style-type: none;
 
     li {
-        @include icon($icon);
+        @include icon($color: $color);
+        @include fa-icon($icon);
 
         position: relative;
 
         &:before {
             position: absolute;
-            left: $spacing;
+            left: -2.14285714em;
+            width: 2.14285714em;
             top: 0.14285714em;
-            width: $spacing;
-            color: $color;
-            font-family: FontAwesome;
+            text-align: center;
         }
     }
 }
 
-// Icons
+// Font Awesome Iconset
+// ==================== //
+// Ref: http://fontawesome.io/icons/
+// Last updated for v4.3
+
 $fa-adjust: "\f042";
 $fa-adn: "\f170";
 $fa-align-center: "\f037";
@@ -103,6 +82,7 @@ $fa-bar-chart: "\f080";
 $fa-bar-chart-o: "\f080";
 $fa-barcode: "\f02a";
 $fa-bars: "\f0c9";
+$fa-bed: "\f236";
 $fa-beer: "\f0fc";
 $fa-behance: "\f1b4";
 $fa-behance-square: "\f1b5";
@@ -130,6 +110,7 @@ $fa-building-o: "\f0f7";
 $fa-bullhorn: "\f0a1";
 $fa-bullseye: "\f140";
 $fa-bus: "\f207";
+$fa-buysellads: "\f20d";
 $fa-cab: "\f1ba";
 $fa-calculator: "\f1ec";
 $fa-calendar: "\f073";
@@ -145,6 +126,8 @@ $fa-caret-square-o-left: "\f191";
 $fa-caret-square-o-right: "\f152";
 $fa-caret-square-o-up: "\f151";
 $fa-caret-up: "\f0d8";
+$fa-cart-arrow-down: "\f218";
+$fa-cart-plus: "\f217";
 $fa-cc: "\f20a";
 $fa-cc-amex: "\f1f3";
 $fa-cc-discover: "\f1f2";
@@ -193,6 +176,7 @@ $fa-comments: "\f086";
 $fa-comments-o: "\f0e6";
 $fa-compass: "\f14e";
 $fa-compress: "\f066";
+$fa-connectdevelop: "\f20e";
 $fa-copy: "\f0c5";
 $fa-copyright: "\f1f9";
 $fa-credit-card: "\f09d";
@@ -204,11 +188,13 @@ $fa-cubes: "\f1b3";
 $fa-cut: "\f0c4";
 $fa-cutlery: "\f0f5";
 $fa-dashboard: "\f0e4";
+$fa-dashcube: "\f210";
 $fa-database: "\f1c0";
 $fa-dedent: "\f03b";
 $fa-delicious: "\f1a5";
 $fa-desktop: "\f108";
 $fa-deviantart: "\f1bd";
+$fa-diamond: "\f219";
 $fa-digg: "\f1a6";
 $fa-dollar: "\f155";
 $fa-dot-circle-o: "\f192";
@@ -238,6 +224,8 @@ $fa-eye: "\f06e";
 $fa-eye-slash: "\f070";
 $fa-eyedropper: "\f1fb";
 $fa-facebook: "\f09a";
+$fa-facebook-f: "\f09a";
+$fa-facebook-official: "\f230";
 $fa-facebook-square: "\f082";
 $fa-fast-backward: "\f049";
 $fa-fast-forward: "\f050";
@@ -279,6 +267,7 @@ $fa-folder-o: "\f114";
 $fa-folder-open: "\f07c";
 $fa-folder-open-o: "\f115";
 $fa-font: "\f031";
+$fa-forumbee: "\f211";
 $fa-forward: "\f04e";
 $fa-foursquare: "\f180";
 $fa-frown-o: "\f119";
@@ -289,6 +278,7 @@ $fa-gbp: "\f154";
 $fa-ge: "\f1d1";
 $fa-gear: "\f013";
 $fa-gears: "\f085";
+$fa-genderless: "\f1db";
 $fa-gift: "\f06b";
 $fa-git: "\f1d3";
 $fa-git-square: "\f1d2";
@@ -303,6 +293,7 @@ $fa-google-plus: "\f0d5";
 $fa-google-plus-square: "\f0d4";
 $fa-google-wallet: "\f1ee";
 $fa-graduation-cap: "\f19d";
+$fa-gratipay: "\f184";
 $fa-group: "\f0c0";
 $fa-h-square: "\f0fd";
 $fa-hacker-news: "\f1d4";
@@ -315,9 +306,11 @@ $fa-header: "\f1dc";
 $fa-headphones: "\f025";
 $fa-heart: "\f004";
 $fa-heart-o: "\f08a";
+$fa-heartbeat: "\f21e";
 $fa-history: "\f1da";
 $fa-home: "\f015";
 $fa-hospital-o: "\f0f8";
+$fa-hotel: "\f236";
 $fa-html5: "\f13b";
 $fa-ils: "\f20b";
 $fa-image: "\f03e";
@@ -341,6 +334,7 @@ $fa-laptop: "\f109";
 $fa-lastfm: "\f202";
 $fa-lastfm-square: "\f203";
 $fa-leaf: "\f06c";
+$fa-leanpub: "\f212";
 $fa-legal: "\f0e3";
 $fa-lemon-o: "\f094";
 $fa-level-down: "\f149";
@@ -372,10 +366,17 @@ $fa-mail-reply: "\f112";
 $fa-mail-reply-all: "\f122";
 $fa-male: "\f183";
 $fa-map-marker: "\f041";
+$fa-mars: "\f222";
+$fa-mars-double: "\f227";
+$fa-mars-stroke: "\f229";
+$fa-mars-stroke-h: "\f22b";
+$fa-mars-stroke-v: "\f22a";
 $fa-maxcdn: "\f136";
 $fa-meanpath: "\f20c";
+$fa-medium: "\f23a";
 $fa-medkit: "\f0fa";
 $fa-meh-o: "\f11a";
+$fa-mercury: "\f223";
 $fa-microphone: "\f130";
 $fa-microphone-slash: "\f131";
 $fa-minus: "\f068";
@@ -387,8 +388,10 @@ $fa-mobile-phone: "\f10b";
 $fa-money: "\f0d6";
 $fa-moon-o: "\f186";
 $fa-mortar-board: "\f19d";
+$fa-motorcycle: "\f21c";
 $fa-music: "\f001";
 $fa-navicon: "\f0c9";
+$fa-neuter: "\f22c";
 $fa-newspaper-o: "\f1ea";
 $fa-openid: "\f19b";
 $fa-outdent: "\f03b";
@@ -413,6 +416,7 @@ $fa-pie-chart: "\f200";
 $fa-pied-piper: "\f1a7";
 $fa-pied-piper-alt: "\f1a8";
 $fa-pinterest: "\f0d2";
+$fa-pinterest-p: "\f231";
 $fa-pinterest-square: "\f0d3";
 $fa-plane: "\f072";
 $fa-play: "\f04b";
@@ -462,8 +466,10 @@ $fa-scissors: "\f0c4";
 $fa-search: "\f002";
 $fa-search-minus: "\f010";
 $fa-search-plus: "\f00e";
+$fa-sellsy: "\f213";
 $fa-send: "\f1d8";
 $fa-send-o: "\f1d9";
+$fa-server: "\f233";
 $fa-share: "\f064";
 $fa-share-alt: "\f1e0";
 $fa-share-alt-square: "\f1e1";
@@ -472,11 +478,15 @@ $fa-share-square-o: "\f045";
 $fa-shekel: "\f20b";
 $fa-sheqel: "\f20b";
 $fa-shield: "\f132";
+$fa-ship: "\f21a";
+$fa-shirtsinbulk: "\f214";
 $fa-shopping-cart: "\f07a";
 $fa-sign-in: "\f090";
 $fa-sign-out: "\f08b";
 $fa-signal: "\f012";
+$fa-simplybuilt: "\f215";
 $fa-sitemap: "\f0e8";
+$fa-skyatlas: "\f216";
 $fa-skype: "\f17e";
 $fa-slack: "\f198";
 $fa-sliders: "\f1de";
@@ -515,10 +525,12 @@ $fa-step-backward: "\f048";
 $fa-step-forward: "\f051";
 $fa-stethoscope: "\f0f1";
 $fa-stop: "\f04d";
+$fa-street-view: "\f21d";
 $fa-strikethrough: "\f0cc";
 $fa-stumbleupon: "\f1a4";
 $fa-stumbleupon-circle: "\f1a3";
 $fa-subscript: "\f12c";
+$fa-subway: "\f239";
 $fa-suitcase: "\f0f2";
 $fa-sun-o: "\f185";
 $fa-superscript: "\f12b";
@@ -553,6 +565,9 @@ $fa-toggle-off: "\f204";
 $fa-toggle-on: "\f205";
 $fa-toggle-right: "\f152";
 $fa-toggle-up: "\f151";
+$fa-train: "\f238";
+$fa-transgender: "\f224";
+$fa-transgender-alt: "\f225";
 $fa-trash: "\f1f8";
 $fa-trash-o: "\f014";
 $fa-tree: "\f1bb";
@@ -579,7 +594,14 @@ $fa-upload: "\f093";
 $fa-usd: "\f155";
 $fa-user: "\f007";
 $fa-user-md: "\f0f0";
+$fa-user-plus: "\f234";
+$fa-user-secret: "\f21b";
+$fa-user-times: "\f235";
 $fa-users: "\f0c0";
+$fa-venus: "\f221";
+$fa-venus-double: "\f226";
+$fa-venus-mars: "\f228";
+$fa-viacoin: "\f237";
 $fa-video-camera: "\f03d";
 $fa-vimeo-square: "\f194";
 $fa-vine: "\f1ca";
@@ -591,6 +613,7 @@ $fa-warning: "\f071";
 $fa-wechat: "\f1d7";
 $fa-weibo: "\f18a";
 $fa-weixin: "\f1d7";
+$fa-whatsapp: "\f232";
 $fa-wheelchair: "\f193";
 $fa-wifi: "\f1eb";
 $fa-windows: "\f17a";
