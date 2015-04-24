@@ -1,0 +1,22 @@
+fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="telephone"],
+input[type="password"] {
+    @include input(50px);
+}
+
+textarea {
+    @include textarea;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: $body-font-bold;
+}

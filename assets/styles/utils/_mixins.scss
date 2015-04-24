@@ -103,6 +103,23 @@
     list-style: none;
 }
 
+// Forms
+// ===== //
+@mixin input($height: null) {
+    display: block;
+    width: 100%;
+    height: $height;
+    padding: 0 25px;
+    border: 1px solid $light-grey;
+    line-height: $height;
+}
+
+@mixin textarea {
+    @include input;
+
+    padding: 25px;
+}
+
 // Icons
 // ===== //
 
