@@ -2,10 +2,11 @@ table {
 	width: 100%;
 	border-collapse: collapse;
 	border-spacing: 0;
+    font-size: .875em;
 }
 
 th {
-	padding: 5px;
+	padding: 10px;
 	background: $light-grey;
 	color: $base-text-color;
     font: {
@@ -16,6 +17,6 @@ th {
 }
 
 td {
-	padding: 5px;
+	padding: 10px;
 	border-bottom: 1px solid $light-grey;
 }
