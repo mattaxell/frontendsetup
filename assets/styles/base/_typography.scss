@@ -12,10 +12,10 @@ a {
 	color: $link-color;
 	font-weight: $link-font-weight;
 	text-decoration: none;
-	transition: all .5s ease;
 
 	&:hover {
 		color: $link-hover-color;
+		transition: all .5s ease;
 	}
 }
 
