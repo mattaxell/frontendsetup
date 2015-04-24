@@ -23,7 +23,6 @@ var gulp = require('gulp'),
     // Other
     util = require('gulp-util'),
     del = require('del'),
-    bust = require('gulp-buster'),
     notify = require('gulp-notify'),
     notifier = require('node-notifier'),
     merge = require('merge-stream'),
@@ -71,7 +70,7 @@ var paths = {
 
 var settings = {
     autoprefix: {
-        versions: 'last 10 version'
+        versions: 'last 10 versions'
     }
 }
 
@@ -98,6 +97,20 @@ var deployment = {
     destination: '_deploy'
 }
 
+// Errors
+// ======
+// Handle errors and continue to run Gulp
+
+var logErrors = function(error) {
+    console.log("An error has occured:");
+    console.log(error.toString());
+
+    notifier.notify({message: 'Errors occured - check log'});
+
+    util.log(error);
+    this.emit('end');
+};
+
 // Styles
 // ======
 // Grabs everything inside the styles & sprites
@@ -108,10 +121,9 @@ var deployment = {
 gulp.task('styles', function() {
     return gulp.src(paths.assets.styles.files)
         .pipe(sass({sourceComments: 'normal'}))
-        .pipe(autoprefix(settings.autoprefix.versions))
+        .on('error', logErrors)
+        .pipe(autoprefix({browsers: settings.autoprefix.versions}))
         .pipe(gulp.dest(paths.public.styles))
-        .pipe(bust())
-        .pipe(gulp.dest(paths.hash.dir));
 });
 
 // Scripts
@@ -124,7 +136,6 @@ gulp.task('scripts', function() {
     return gulp.src(paths.assets.js.files)
         .pipe(concat('main.min.js'))
         .pipe(gulp.dest(paths.public.js))
-        .pipe(bust())
         .pipe(gulp.dest(paths.hash.dir));
 });
 
@@ -183,21 +194,18 @@ gulp.task('production', ['clean'], function() {
 
     // Styles
     var styles = gulp.src(paths.assets.styles.files)
-        .pipe(sass())
-        .pipe(autoprefix(settings.autoprefix.versions))
+        .pipe(sass({sourceComments: 'normal'}))
+        .on('error', logErrors)
+        .pipe(autoprefix({browsers: settings.autoprefix.versions}))
         .pipe(minify())
-        .pipe(gulp.dest(paths.public.styles))
-        .pipe(bust())
-        .pipe(gulp.dest(paths.hash.dir));
+        .pipe(gulp.dest(paths.public.styles));
 
     // Scripts
     var scripts = gulp.src(paths.assets.js.files)
         .pipe(concat('main.min.js'))
         .pipe(strip())
         .pipe(uglify())
-        .pipe(gulp.dest(paths.public.js))
-        .pipe(bust())
-        .pipe(gulp.dest(paths.hash.dir));
+        .pipe(gulp.dest(paths.public.js));
 
     // Compress all images.
     // We use seperate tasks for each file format as
