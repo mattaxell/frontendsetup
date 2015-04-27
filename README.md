@@ -5,6 +5,7 @@ My typical starting point/structure for use when beginning front end projects wr
 #####Styles Folder Structure
 
 ```
+.
 ├── base
 │   ├── _reset.scss
 │   └── _typography.scss
@@ -13,7 +14,6 @@ My typical starting point/structure for use when beginning front end projects wr
 │   ├── _forms.scss
 │   ├── _lists.scss
 │   └── _tables.scss
-├── main.scss
 ├── pages
 │   └── _home.scss
 ├── partials
@@ -33,9 +33,10 @@ My typical starting point/structure for use when beginning front end projects wr
         ├── _grid.scss
         ├── _index.scss
         └── _settings.scss
+├── main.scss
 ```
 
-#####Gulp Task
+#####Gulp File
 
 ######Dependencies
 - `del`
