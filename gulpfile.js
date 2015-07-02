@@ -90,15 +90,15 @@ var packaged = {
 
 }
 
-var = deployment {
+var deployment = {
 
     // FTP credentials
     host: '',
     user: '',
-    password: ''
+    password: '',
 
     // The remote folder to upload them to
-    destination: '/ax8ll/supertuscan/wp-content/themes/supertuscan'
+    destination: ''
 
 }
 
