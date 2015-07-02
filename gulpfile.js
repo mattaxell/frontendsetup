@@ -15,10 +15,8 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
 
     // Images
-    png = require('imagemin-optipng'),
-    jpg = require('imagemin-jpegtran'),
-    gif = require('imagemin-gifsicle'),
-    cache = require('gulp-cache'),
+    imagemin = require('gulp-imagemin'),
+    pngquant = require('imagemin-pngquant');
 
     // Other
     util = require('gulp-util'),
@@ -26,7 +24,9 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     notifier = require('node-notifier'),
     merge = require('merge-stream'),
-    sequence = require('run-sequence');
+    sequence = require('run-sequence'),
+    combinemq = require('gulp-combine-media-queries'),
+    ftp = require('vinyl-ftp');
 
 // Assets
 // ======
@@ -48,10 +48,6 @@ var paths = {
         img: {
             dir: 'assets/img',
             files: 'assets/img/**/*',
-            png: 'assets/img/**/*.png',
-            jpg: 'assets/img/**/*.jpg',
-            gif: 'assets/img/**/*.gif',
-            svg: 'assets/img/**/*.svg',
             ico: 'assets/img/**/*.ico'
         }
     },
@@ -59,9 +55,6 @@ var paths = {
         styles: 'public/styles',
         js: 'public/js',
         img: 'public/img'
-    },
-    hash: {
-        dir: 'public/cache'
     }
 }
 
@@ -70,16 +63,18 @@ var paths = {
 
 var settings = {
     autoprefix: {
-        versions: 'last 10 versions'
+        versions: 'last 4 versions'
     }
 }
 
-// Deployment
-// ==========
+// Package Project
+// ===============
+// Package files for output either for use in deploy task
+// or for managing the files manually.
 
-var deployment = {
+var packaged = {
 
-    // The files we want to deploy
+    // Ignore files we don't need
     files: [
         '**/*',
         '!{vendor,vendor/**}',
@@ -93,8 +88,18 @@ var deployment = {
         '!README.md'
     ],
 
-    // The folder to store them in
-    destination: '_deploy'
+}
+
+var = deployment {
+
+    // FTP credentials
+    host: '',
+    user: '',
+    password: ''
+
+    // The remote folder to upload them to
+    destination: '/ax8ll/supertuscan/wp-content/themes/supertuscan'
+
 }
 
 // Errors
@@ -135,8 +140,7 @@ gulp.task('styles', function() {
 gulp.task('scripts', function() {
     return gulp.src(paths.assets.js.files)
         .pipe(concat('main.min.js'))
-        .pipe(gulp.dest(paths.public.js))
-        .pipe(gulp.dest(paths.hash.dir));
+        .pipe(gulp.dest(paths.public.js));
 });
 
 // Images
@@ -197,6 +201,7 @@ gulp.task('production', ['clean'], function() {
         .pipe(sass({sourceComments: 'normal'}))
         .on('error', logErrors)
         .pipe(autoprefix({browsers: settings.autoprefix.versions}))
+        .pipe(combinemq())
         .pipe(minify())
         .pipe(gulp.dest(paths.public.styles));
 
@@ -208,46 +213,52 @@ gulp.task('production', ['clean'], function() {
         .pipe(gulp.dest(paths.public.js));
 
     // Compress all images.
-    // We use seperate tasks for each file format as
-    // there is an issue with the 'imagemin' bundle
-    // and it's svg support.
-
-    // PNGs
-    var pngs = gulp.src(paths.assets.img.png)
-        .pipe(png({optimizationLevel: 3})())
-        .pipe(gulp.dest(paths.public.img));
-
-    // JPGs
-    var jpgs = gulp.src(paths.assets.img.jpg)
-        .pipe(jpg({progressive: true})())
-        .pipe(gulp.dest(paths.public.img));
-
-    // GIFs
-    var gifs = gulp.src(paths.assets.img.gif)
-        .pipe(gif({interlaced: true})())
-        .pipe(gulp.dest(paths.public.img));
-
-    // SVGs
-    var svgs = gulp.src(paths.assets.img.svg)
-        .pipe(gulp.dest(paths.public.img));
+    var images = gulp.src(paths.assets.img.files)
+        .pipe(imagemin({
+            progressive: true,
+            svgoPlugins: [{removeViewBox: false}],
+            use: [pngquant()]
+        }))
+        .pipe(gulp.dest(paths.public.img))
 
     // ICOs
     var icos = gulp.src(paths.assets.img.ico)
         .pipe(gulp.dest(paths.public.img));
 
     // Return the streams in one combined stream
-    return merge(styles, scripts, pngs, jpgs, gifs, svgs, icos);
+    return merge(styles, scripts, images, icos);
+});
+
+// Package
+// =======
+// Package up the deployment files
+// but create a local instead of uploading
+
+gulp.task('package', ['production'], function() {
+
+    gulp.src(packaged.files, {base: '.'})
+        .pipe(gulp.dest('_package'));
+
 });
 
 // Deployment
 // ==========
 // This task runs 'production' and then grabs all the files
-// we want to upload and puts them in there own folder.
+// we want to upload and does so via FTP.
 
 gulp.task('deploy', ['production'], function() {
-    gulp.src(deployment.files, {base: '.'})
-        .pipe(gulp.dest(deployment.destination));
-});
+
+    var conn = ftp.create({
+        host: deployment.host,
+        user: deployment.user,
+        password: deployment.password
+    });
+
+    return gulp.src(packaged.files, { base: '.', buffer: false })
+        .pipe(conn.newer(deployment.destination))
+        .pipe(conn.dest(deployment.destination));
+
+})
 
 // Default
 // =======
