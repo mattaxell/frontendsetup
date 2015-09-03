@@ -49,12 +49,17 @@ var paths = {
             dir: 'assets/img',
             files: 'assets/img/**/*',
             ico: 'assets/img/**/*.ico'
+        },
+        fonts: {
+            dir: 'assets/fonts',
+            files: 'assets/fonts/**/*'
         }
     },
     public: {
         styles: 'public/styles',
         js: 'public/js',
-        img: 'public/img'
+        img: 'public/img',
+        fonts: 'public/fonts'
     }
 }
 
@@ -154,6 +159,18 @@ gulp.task('images', function() {
         .pipe(gulp.dest(paths.public.img));
 });
 
+// Fonts
+// =====
+// Grabs any self hosted font files in the asset
+// folder and moves them to public. No optimization takes
+// place but it saves committing the font folder in the
+// public directory.
+
+gulp.task('fonts', function() {
+    return gulp.src(paths.assets.fonts.files)
+        .pipe(gulp.dest(paths.public.fonts));
+})
+
 // Cache-buster
 // ============
 // Completely clear the cache to stop image-min
@@ -225,8 +242,11 @@ gulp.task('production', ['clean'], function() {
     var icos = gulp.src(paths.assets.img.ico)
         .pipe(gulp.dest(paths.public.img));
 
+    var fonts = gulp.src(paths.assets.fonts.files)
+        .pipe(gulp.dest(paths.public.fonts));
+
     // Return the streams in one combined stream
-    return merge(styles, scripts, images, icos);
+    return merge(styles, scripts, images, icos, fonts);
 });
 
 // Package
@@ -267,7 +287,7 @@ gulp.task('deploy', ['production'], function() {
 gulp.task('default', function(callback) {
     sequence(
         'clean',
-        ['styles', 'scripts', 'images'],
+        ['styles', 'scripts', 'images', 'fonts'],
         'watch',
         callback);
 
