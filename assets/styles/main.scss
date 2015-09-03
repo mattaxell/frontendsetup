@@ -2,6 +2,7 @@
 @import "vendor/font-awesome";
 
 @import "utils/variables";
+@import "utils/theme";
 @import "utils/functions";
 @import "utils/mixins";
 @import "utils/helpers";
@@ -18,5 +19,6 @@
 @import "components/forms";
 @import "components/lists";
 @import "components/tables";
+@import "components/alerts";
 
 @import "pages/home";
