@@ -4,19 +4,60 @@ fieldset {
     border: none;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="telephone"],
-input[type="password"] {
-    @include input(50px);
-}
-
-textarea {
-    @include textarea;
-}
-
+// Labels
 label {
     display: block;
     margin-bottom: 10px;
     font-weight: $body-font-bold;
+}
+
+// Inputs and textareas
+input[type="text"],
+input[type="email"],
+input[type="telephone"],
+input[type="password"],
+textarea,
+select {
+    width: 100%;
+    padding: 15px;
+    background: transparent;
+    border: 1px solid $light-grey;
+    border-radius: 0;
+    color: $base-text-color;
+
+    &:focus {
+        border-color: $primary-brand-color;
+        outline: none;
+    }
+}
+
+// Select fields
+.field--select span {
+    position: relative;
+    display: block;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 50%; right: 15px;
+        display: block;
+        width: 0;
+        height: 0;
+        border: {
+            style: solid;
+            width: 5px 5px 0 5px;
+            color: $base-text-color transparent transparent transparent;
+        }
+        transform: translateY(-50%);
+        z-index: -10;
+    }
+}
+
+select {
+    appearance: none;
+}
+
+// Submit button
+input[type="submit"] {
+    border: none;
 }
