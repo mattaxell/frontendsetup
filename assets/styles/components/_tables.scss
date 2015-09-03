@@ -1,22 +1,46 @@
 table {
-	width: 100%;
+	max-width: 100%;
+    width: 100%;
 	border-collapse: collapse;
 	border-spacing: 0;
-    font-size: .875em;
+
+    @include bp($small) {
+        font-size: em(14);
+    }
 }
 
 th {
-	padding: 10px;
-	background: $light-grey;
-	color: $base-text-color;
-    font: {
-        family: $heading-font;
-        weight: $heading-font-weight;
-    }
+    padding: 15px 10px 15px 0;
+	background: transparent;
+    border-bottom: 3px solid $light-grey;
     text-align: left;
 }
 
 td {
-	padding: 10px;
+	padding: 15px 10px 15px 0;
 	border-bottom: 1px solid $light-grey;
+}
+
+// Responsive tables
+// ------------------------- //
+// Using overflow-x to hide overflowed table content
+// Method taken from Bootstrap's responsive table solution
+.table--responsive {
+    width: 100%;
+    margin-bottom: 30px;
+    overflow-y: hidden;
+
+    @include bp($small) {
+        overflow-x: auto;
+        border: 1px solid $light-grey;
+    }
+
+    table { margin-bottom: 0; }
+
+    th,td {
+        @include bp($small) {
+            padding: 10px;
+            white-space: nowrap;
+        }
+    }
 }
