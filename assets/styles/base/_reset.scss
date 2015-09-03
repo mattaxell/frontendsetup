@@ -531,9 +531,7 @@ table {
 *,
 *:before,
 *:after{
-  box-sizing: border-box;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
 }
 
 // =============================================================================
@@ -545,11 +543,10 @@ img {
     max-width: 100%;
     vertical-align: middle;
     border: 0;
-}
 
-.map {
-  img {
-    max-width: none!important;
-    height: auto!important;
-  }
+    // Prevent Google Map controls asset bug
+    .map & {
+        max-width: none!important;
+        height: auto!important;
+    }
 }
