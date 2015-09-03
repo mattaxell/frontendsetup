@@ -1,6 +1,6 @@
 // Em calculator
-// ============= //
-
+// ------------------------- //
+// Calculate em value based on root value
 @function em($pixels, $context: 16) {
     @return #{$pixels/$context}em;
 }
