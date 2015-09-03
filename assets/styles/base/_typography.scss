@@ -5,13 +5,16 @@ body {
 		size: 100%;
 	}
 	line-height: $base-line-height;
+	-webkit-font-smoothing: antialiased;
 }
 
 // Links
+// ------------------------- //
+
 a {
 	color: $link-color;
 	font-weight: $link-font-weight;
-	text-decoration: none;
+	text-decoration: underline;
 
 	&:hover {
 		color: $link-hover-color;
@@ -20,40 +23,64 @@ a {
 }
 
 // Headings
+// ------------------------- //
+
 h1 {
-	@include heading($h1-color);
-	@include heading-size(2em, 1.2);
+	font-size: em(32);
+	line-height: 1.25;
+
+	@include bp($xsmall) { font-size: em(24); }
 }
 
 h2 {
-	@include heading($h2-color);
-	@include heading-size(1.75em, 1.2);
+	font-size: em(28);
+	line-height: 1.25;
+
+	@include bp($xsmall) { font-size: em(22); }
 }
 
 h3 {
-	@include heading($h3-color);
-	@include heading-size(1.5em, 1.2);
+	font-size: em(24);
+
+	@include bp($xsmall) { font-size: em(20); }
 }
 
 h4 {
-	@include heading($h4-color);
-	@include heading-size(1.25em, 1.2);
+	font-size: em(20);
+
+	@include bp($xsmall) { font-size: em(18); }
 }
 
 h5 {
-	@include heading($h5-color);
-	@include heading-size(1.125em);
+	font-size: em(18);
+
+	@include bp($xsmall) { font-size: em(16); }
 }
 
 h6 {
-	@include heading($h6-color);
-	@include heading-size(1em);
+	font-size: em(16);
+
+	@include bp($xsmall) { font-size: em(14); }
 }
 
 // Margins
-p,
-ul,
-ol,
-table {
-	margin: 0 0 $p-margin;
+// ------------------------- //
+
+h1,h2,h3,h4,h5,h6,
+p,ul,ol,table,
+blockquote {
+	margin-top: 0;
+	margin-bottom: 30px;
+
+	@include bp($xsmall) { margin-bottom: 20px; }
+}
+
+// Misc
+// ------------------------- //
+
+.lead {
+	font: {
+		size: em(20);
+		weight: 700;
+	}
 }
