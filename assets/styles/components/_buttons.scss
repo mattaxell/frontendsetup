@@ -7,6 +7,7 @@
 		weight: $button-font-weight;
 	}
 	text-transform: uppercase;
+	text-decoration: none;
 
 	&--small {
 		@extend .button;
