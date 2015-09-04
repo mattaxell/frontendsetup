@@ -14,8 +14,8 @@
             location = new google.maps.LatLng(myLat, myLng);
 
         // Marker Image/Icon
-        var iconSVG = 'map-marker.svg',
-            iconPNG = 'map-marker.png';
+        var iconSVG = 'public/img/map-marker.svg',
+            iconPNG = 'public/img/map-marker.png';
 
         // Check for SVG support with Modernizr
         // Serve png fallback if necessary
@@ -63,7 +63,7 @@
         var marker = new google.maps.Marker({
             position: location,
             map: map,
-            icon: icon
+            // icon: new google.maps.MarkerImage(icon, null, null, null, new google.maps.Size(65,65))
         });
     }
 
