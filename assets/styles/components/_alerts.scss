@@ -1,6 +1,5 @@
 .alert {
     display: block;
-    margin-bottom: 20px; // #temp
     padding: 15px 20px;
     background-color: #fff0b7;
     border: {
@@ -14,21 +13,7 @@
 
     p { margin: 0; }
 
-    &--info {
-        @extend .alert;
-
-        background-color: #d8ecf6;
-    }
-
-    &--success {
-        @extend .alert;
-
-        background-color: #d8e7d9;
-    }
-
-    &--error {
-        @extend .alert;
-
-        background-color: #f0bbc6;
-    }
+    &--info { background-color: #d8ecf6; }
+    &--success { background-color: #d8e7d9; }
+    &--error { background-color: #f0bbc6; }
 }
