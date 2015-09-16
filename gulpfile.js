@@ -21,6 +21,7 @@ var gulp = require('gulp'),
     // Other
     util = require('gulp-util'),
     del = require('del'),
+    colors = require('colors'),
     notify = require('gulp-notify'),
     notifier = require('node-notifier'),
     merge = require('merge-stream'),
@@ -112,12 +113,28 @@ var deployment = {
 // Handle errors and continue to run Gulp
 
 var logErrors = function(error) {
-    console.log("An error has occured:");
-    console.log(error.toString());
 
-    notifier.notify({message: 'Errors occured - check log'});
+    // Use regex to get cleaner error file path
+    // Ommits everything before and including current project folder
+    // Relies on project being in directory ending in the letter 'p'.
+    // This works for me as I only use _pp (Personal Projects) and _wp (Work Projects)
+    var errorFilePath = error.fileName.toString(),
+        errorFile = errorFilePath.match(/p\/[A-Za-z0-9-]+\/(.*)/);
 
-    util.log(error);
+    // Nicely formatted console log error, including a description and locaiton of error
+    console.log('THE FOLLOWING ERROR HAS OCCURED...'.red);
+    console.log('=============================================');
+    console.log('Description: '.yellow + error.message.toString());
+    console.log('Location:'.yellow + ' Line ' + error.lineNumber.toString() + ' of ' + errorFile[1]);
+    console.log('=============================================');
+
+    // Also display occurance of error as notification
+    notifier.notify({
+        title: 'Gulp Task Error',
+        message: 'Check the console.'
+    });
+
+    // util.log(error);
     this.emit('end');
 };
 
