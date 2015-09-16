@@ -122,11 +122,9 @@ var logErrors = function(error) {
         errorFile = errorFilePath.match(/p\/[A-Za-z0-9-]+\/(.*)/);
 
     // Nicely formatted console log error, including a description and locaiton of error
-    console.log('THE FOLLOWING ERROR HAS OCCURED...'.red);
-    console.log('=============================================');
-    console.log('Description: '.yellow + error.message.toString());
-    console.log('Location:'.yellow + ' Line ' + error.lineNumber.toString() + ' of ' + errorFile[1]);
-    console.log('=============================================');
+    console.log('-----------------------------------------------------------------------');
+    console.log('ERROR!'.red + ' ' + error.message.toString().yellow + ' on line ' + error.lineNumber.toString() + ' of ' + errorFile[1].underline);
+    console.log('-----------------------------------------------------------------------');
 
     // Also display occurance of error as notification
     notifier.notify({
