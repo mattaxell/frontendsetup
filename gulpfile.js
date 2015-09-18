@@ -114,16 +114,15 @@ var deployment = {
 
 var logErrors = function(error) {
 
-    // Use regex to get cleaner error file path
-    // Ommits everything before and including current project folder
-    // Relies on project being in directory ending in the letter 'p'.
-    // This works for me as I only use _pp (Personal Projects) and _wp (Work Projects)
+    // Remove project directory path
+    // from outputted error file path
     var errorFilePath = error.fileName.toString(),
-        errorFile = errorFilePath.match(/p\/[A-Za-z0-9-]+\/(.*)/);
+        projectDir = __dirname,
+        errorFile = errorFilePath.replace(projectDir, '');
 
-    // Nicely formatted console log error, including a description and locaiton of error
+    // Nicely formatted console log error, including a description and location of error
     console.log('-----------------------------------------------------------------------');
-    console.log('ERROR!'.red + ' ' + error.message.toString().yellow + ' on line ' + error.lineNumber.toString() + ' of ' + errorFile[1].underline);
+    console.log('ERROR!'.red + ' ' + error.message.toString().yellow + ' on line ' + error.lineNumber.toString() + ' of ' + errorFile.underline);
     console.log('-----------------------------------------------------------------------');
 
     // Also display occurance of error as notification
