@@ -21,13 +21,13 @@ var gulp = require('gulp'),
     // Other
     util = require('gulp-util'),
     del = require('del'),
-    colors = require('colors'),
     notify = require('gulp-notify'),
     notifier = require('node-notifier'),
     merge = require('merge-stream'),
     sequence = require('run-sequence'),
     combinemq = require('gulp-combine-media-queries'),
-    ftp = require('vinyl-ftp');
+    ftp = require('vinyl-ftp'),
+    hostconfig = require('./hostconfig.json');
 
 // Assets
 // ======
@@ -50,17 +50,12 @@ var paths = {
             dir: 'assets/img',
             files: 'assets/img/**/*',
             ico: 'assets/img/**/*.ico'
-        },
-        fonts: {
-            dir: 'assets/fonts',
-            files: 'assets/fonts/**/*'
         }
     },
     public: {
         styles: 'public/styles',
         js: 'public/js',
-        img: 'public/img',
-        fonts: 'public/fonts'
+        img: 'public/img'
     }
 }
 
@@ -83,11 +78,13 @@ var packaged = {
     // Ignore files we don't need
     files: [
         '**/*',
+        '!{_package,_package/**}',
         '!{vendor,vendor/**}',
         '!{assets,assets/**}',
         '!{templates,templates/**}',
         '!{node_modules,node_modules/**}',
         '!package.json',
+        '!hostconfig.json',
         '!gulpfile.js',
         '!composer.json',
         '!composer.lock',
@@ -98,13 +95,21 @@ var packaged = {
 
 var deployment = {
 
-    // FTP credentials
-    host: '',
-    user: '',
-    password: '',
+    staging: {
+        host: hostconfig.staging.host,
+        user: hostconfig.staging.user,
+        password: hostconfig.staging.password,
+        destination: hostconfig.staging.destination,
+        log: util.log
+    },
 
-    // The remote folder to upload them to
-    destination: ''
+    production: {
+        host: hostconfig.production.host,
+        user: hostconfig.production.user,
+        password: hostconfig.production.password,
+        destination: hostconfig.production.destination,
+        log: util.log
+    }
 
 }
 
@@ -113,25 +118,12 @@ var deployment = {
 // Handle errors and continue to run Gulp
 
 var logErrors = function(error) {
+    console.log("An error has occured:");
+    console.log(error.toString());
 
-    // Remove project directory path
-    // from outputted error file path
-    var errorFilePath = error.fileName.toString(),
-        projectDir = __dirname,
-        errorFile = errorFilePath.replace(projectDir, '');
+    notifier.notify({message: 'Errors occured - check log'});
 
-    // Nicely formatted console log error, including a description and location of error
-    console.log('-----------------------------------------------------------------------');
-    console.log('ERROR!'.red + ' ' + error.message.toString().yellow + ' on line ' + error.lineNumber.toString() + ' of ' + errorFile.underline);
-    console.log('-----------------------------------------------------------------------');
-
-    // Also display occurance of error as notification
-    notifier.notify({
-        title: 'Gulp Task Error',
-        message: 'Check the console.'
-    });
-
-    // util.log(error);
+    util.log(error);
     this.emit('end');
 };
 
@@ -172,18 +164,6 @@ gulp.task('images', function() {
     return gulp.src(paths.assets.img.files)
         .pipe(gulp.dest(paths.public.img));
 });
-
-// Fonts
-// =====
-// Grabs any self hosted font files in the asset
-// folder and moves them to public. No optimization takes
-// place but it saves committing the font folder in the
-// public directory.
-
-gulp.task('fonts', function() {
-    return gulp.src(paths.assets.fonts.files)
-        .pipe(gulp.dest(paths.public.fonts));
-})
 
 // Cache-buster
 // ============
@@ -256,11 +236,8 @@ gulp.task('production', ['clean'], function() {
     var icos = gulp.src(paths.assets.img.ico)
         .pipe(gulp.dest(paths.public.img));
 
-    var fonts = gulp.src(paths.assets.fonts.files)
-        .pipe(gulp.dest(paths.public.fonts));
-
     // Return the streams in one combined stream
-    return merge(styles, scripts, images, icos, fonts);
+    return merge(styles, scripts, images, icos);
 });
 
 // Package
@@ -275,22 +252,36 @@ gulp.task('package', ['production'], function() {
 
 });
 
+gulp.task('environment', function(){
+    // Define development environment based on task flag (dev/production)
+    if(util.env.production) {
+        env = 'production';
+    } else if(util.env.staging) {
+        env = 'staging';
+    } else {
+        throw new util.PluginError({
+            plugin: 'Environment',
+            message: 'Please define development environment (staging|production)'
+        });
+    }
+});
+
 // Deployment
 // ==========
 // This task runs 'production' and then grabs all the files
 // we want to upload and does so via FTP.
 
-gulp.task('deploy', ['production'], function() {
+gulp.task('deploy', ['environment', 'production'], function() {
 
-    var conn = ftp.create({
-        host: deployment.host,
-        user: deployment.user,
-        password: deployment.password
-    });
+    var stream = gulp.src(packaged.files, { base: '.', buffer: false }),
+        config = deployment[env],
+        conn = ftp.create(config);
 
-    return gulp.src(packaged.files, { base: '.', buffer: false })
-        .pipe(conn.newer(deployment.destination))
-        .pipe(conn.dest(deployment.destination));
+    stream = stream
+        .pipe(conn.newer(config.destination))
+        .pipe(conn.dest(config.destination));
+
+    return stream;
 
 })
 
@@ -301,7 +292,7 @@ gulp.task('deploy', ['production'], function() {
 gulp.task('default', function(callback) {
     sequence(
         'clean',
-        ['styles', 'scripts', 'images', 'fonts'],
+        ['styles', 'scripts', 'images'],
         'watch',
         callback);
 
