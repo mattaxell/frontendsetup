@@ -12,15 +12,12 @@ npm-debug.log
 index.html
 
 # assets
-/public/styles
-/public/js
-/public/img
-/public/fonts
-/public/cache
+/public
 
 # generic
 .DS_Store
 .sass-cache
 *.sublime*
 _deploy
+_package
 !.gitkeep
