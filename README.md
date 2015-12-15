@@ -10,6 +10,7 @@ My typical starting point/structure for use when beginning front end projects wr
 │   ├── _reset.scss
 │   └── _typography.scss
 ├── components
+│   ├── _alerts.scss
 │   ├── _buttons.scss
 │   ├── _forms.scss
 │   ├── _lists.scss
@@ -25,6 +26,7 @@ My typical starting point/structure for use when beginning front end projects wr
 │   ├── _functions.scss
 │   ├── _helpers.scss
 │   ├── _mixins.scss
+│   └── _theme.scss
 │   └── _variables.scss
 └── vendor
     ├── _font-awesome.scss
@@ -36,37 +38,41 @@ My typical starting point/structure for use when beginning front end projects wr
 ├── main.scss
 ```
 
-#####Gulp File
-
-######Dependencies
-- `del`
-- `gulp`
-- `gulp-autoprefixer`
-- `gulp-buster`
-- `gulp-cache`
-- `gulp-concat`
-- `gulp-hash`
-- `gulp-minify-css`
-- `gulp-notify`
-- `gulp-rename`
-- `gulp-rev`
-- `gulp-sass`
-- `gulp-strip-debug`
-- `gulp-uglify`
-- `gulp-util`
-- `imagemin-gifsicle`
-- `imagemin-jpegtran`
-- `imagemin-optipng`
-- `merge-stream`
-- `node-notifier`
-- `run-sequence`
-
-######Tasks
-- `gulp` - Default task, runs all sub tasks without minifying and watches for changes.
-- `gulp production` - Runs all sub tasks inluding minification, doesn't watch for changes.
-- `gulp-deploy` - Run production task and package all deployable files in preparation to upload to server
-
 #####Vendor
 
 - [Jeet Grid System](http://jeet.gs/)
 - [Font Awesome](http://fontawesome.io/)
+
+Optional use of Jeet for a sass grid system and Font Awesome as a default icon set.
+
+#####Gulp Setup
+
+######Tasks
+- `gulp` - Default task, runs all sub tasks without minifying and watches for changes.
+- `gulp production` - Runs all sub tasks including minification, doesn't watch for changes.
+- `gulp package` - Runs production task and makes a copy of deployable files in `/_package` directory, without uploading to any server.
+- `gulp deploy` - Requires flag to determine dev environment [staging|production]
+- `gulp deploy --staging` - Runs `production` then uploads deployable files to staging server (requires hostconfig.json)
+- `gulp deploy --production` - Runs `production` then uploads deployable files to live server (requires hostconfig.json)
+
+######Host Config
+`deploy` tasks require hosting credentials stored in a file named `hostconfig.json` in the route of the project. This file should be ignored by git repository to prevent secure logins being accessed without authorisation.
+
+It can contain host information of 'staging' and 'production' servers, in the following format:
+
+```
+{
+    "staging": {
+        "host": "",
+        "user": "",
+        "password": "",
+        "destination": ""
+    },
+    "production": {
+        "host": "",
+        "user": "",
+        "password": "",
+        "destination": ""
+    }
+}
+```
