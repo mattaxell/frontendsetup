@@ -8,16 +8,20 @@ npm-debug.log
 # composer
 /vendor
 
-#theme
-index.html
-
-# assets
+# build
+/assets/css
+/assets/js/*.min.*
 /public
+
+# generated directories
+_deploy
+_build
+
+# ftp
+hostconfig.json
 
 # generic
 .DS_Store
 .sass-cache
 *.sublime*
-_deploy
-_package
 !.gitkeep
