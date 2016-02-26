@@ -4,7 +4,7 @@ var gulp = require('gulp'),
     // Styles
     sass = require('gulp-sass'),
     autoprefix = require('gulp-autoprefixer'),
-    minify = require('gulp-minify-css'),
+    minify = require('gulp-clean-css'),
     rename = require('gulp-rename'),
 
     // Scripts
@@ -24,20 +24,22 @@ var gulp = require('gulp'),
     notifier = require('node-notifier'),
     merge = require('merge-stream'),
     sequence = require('run-sequence'),
-    combinemq = require('gulp-combine-media-queries'),
+    combinemq = require('gulp-combine-mq'),
     ftp = require('vinyl-ftp'),
     hostconfig = require('./hostconfig.json');
 
 // Errors
-var logErrors = function(error) {
-    console.log("An error has occured:");
-    console.log(error.toString());
+var logErrors = function (error) {
+    notify({
+        title: 'Gulp Task Error',
+        message: 'Check the console.'
+    }).write(error);
 
-    notifier.notify({message: 'Errors occured - check log'});
+    console.log('Description: ' + error.message);
+    console.log('In file: ' + error.fileName + ', on line: ' + error.lineNumber );
 
-    util.log(error);
     this.emit('end');
-};
+}
 
 /* -------------------------
     Tasks
@@ -52,7 +54,7 @@ gulp.task('styles', function() {
         .pipe(sass({sourceComments: 'normal'}))
         .on('error', logErrors)
         .pipe(autoprefix({browsers: 'last 4 versions'}))
-        .pipe(production ? combinemq() : util.noop())
+        .pipe(combinemq())
         .pipe(production ? minify() : util.noop())
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('assets/css'))
