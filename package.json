@@ -20,7 +20,6 @@
         "gulp-strip-debug": "*",
         "gulp-uglify": "*",
         "gulp-util": "*",
-        "imagemin": "*"
         "imagemin-pngquant": "*",
         "merge-stream": "*",
         "node-notifier": "*",
