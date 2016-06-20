@@ -41,7 +41,7 @@ gulp.task('clean', function(){
     return del([
         '_packaged',
         '_packaged/**',
-        'assets/css/**',
+        'assets/css/*.css',
         'assets/js/*.min.js'
     ]);
 });
@@ -96,24 +96,27 @@ gulp.task('default', function(callback) {
     sequence(
         ['styles', 'scripts', 'images'],
         'watch',
-        callback);
+        callback
+    );
 });
 
 /* -------------------------
     Build
 ------------------------- */
 
-gulp.task('build', function() {
+gulp.task('build', function(callback) {
     sequence(
-    'clean',
-    ['styles', 'scripts', 'images']);
+        'clean',
+        ['styles', 'scripts', 'images'],
+        callback
+    );
 });
 
 /* -------------------------
     Deployment
 ------------------------- */
 
-var deploy = {
+var build = {
 
     files: [
         '**/*',
@@ -152,8 +155,8 @@ var deploy = {
 // Package task
 // Package build files without uploading
 gulp.task('package', ['build'], function() {
-    gulp.src(deploy.files, {base: '.'})
-        .pipe(gulp.dest('_packaged'));
+    gulp.src(build.files, {base: '.'})
+        .pipe(gulp.dest('_build'));
 });
 
 // Deploy task
@@ -173,7 +176,7 @@ gulp.task('deploy', function() {
     }
 
     var stream = gulp.src(build.files, { base: '.', buffer: false }),
-        config = deploy[env],
+        config = build[env],
         conn = ftp.create(config);
 
     stream = stream
