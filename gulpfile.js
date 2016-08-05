@@ -10,7 +10,6 @@ var gulp       = require('gulp'),
     strip      = require('gulp-strip-debug'),
     uglify     = require('gulp-uglify'),
     gutil      = require('gulp-util'),
-
     del        = require('del'),
     ftp        = require('vinyl-ftp'),
     notifier   = require('node-notifier'),
@@ -39,44 +38,40 @@ var logErrors = function (error) {
 
 gulp.task('clean', function(){
     return del([
-        '_packaged',
-        '_packaged/**',
-        'assets/css/*.css',
-        'assets/js/*.min.js'
+        '__packaged',
+        '__packaged/**',
+        'assets/**',
     ]);
 });
 
 // Styles
 gulp.task('styles', function() {
 
-    var production = ['build'].indexOf(this.seq.slice(-1)[0]) !== -1;
+    var production = this.seq.indexOf('build') != -1;
 
-    return gulp.src('assets/sass/**/*.scss')
-        .pipe(sass({sourceComments: 'normal'}))
-        .on('error', logErrors)
+    return gulp.src('build/styles/**/*.scss')
+        .pipe(sass()).on('error', logErrors)
         .pipe(autoprefix({browsers: 'last 4 versions'}))
         .pipe(combinemq())
         .pipe(production ? minify() : gutil.noop())
-        .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('assets/css'))
 });
 
 // Scripts
 gulp.task('scripts', function() {
 
-    var production = ['build'].indexOf(this.seq.slice(-1)[0]) !== -1;
+    var production = this.seq.indexOf('build') != -1;
 
-    return gulp.src('assets/js/src/*.js')
+    return gulp.src('build/js/*.js')
         .pipe(include()).on('error', console.log)
         .pipe(production ? strip() : gutil.noop())
         .pipe(production ? uglify() : gutil.noop())
-        .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('assets/js'));
 });
 
 // Images
 gulp.task('images', function(){
-    return gulp.src('assets/img/**/*')
+    return gulp.src('build/img/**/*')
         .pipe(imagemin({
             progressive: true,
             svgoPlugins: [{removeViewBox: false}]
@@ -86,9 +81,9 @@ gulp.task('images', function(){
 
 // Watch
 gulp.task('watch', function() {
-    gulp.watch('assets/sass/**/*.scss', ['styles']);
-    gulp.watch('assets/js/**/*.js', ['scripts']);
-    gulp.watch('assets/img/**/*', ['images']);
+    gulp.watch('build/sass/**/*.scss', ['styles']);
+    gulp.watch('build/js/**/*.js', ['scripts']);
+    gulp.watch('build/img/**/*', ['images']);
 });
 
 // Default
@@ -116,14 +111,13 @@ gulp.task('build', function(callback) {
     Deployment
 ------------------------- */
 
-var build = {
+var deploy = {
 
     files: [
         '**/*',
-        '!{_packaged,_packaged/**}',
+        '!{__packaged,__packaged/**}',
         '!{vendor,vendor/**}',
-        '!{assets/sass,assets/sass/**}',
-        '!{assets/js/lib,assets/js/lib/**,assets/js/src,assets/js/src/**,assets/js/vendor,assets/js/vendor/**}',
+        '!{build,build/**}',
         '!{templates,templates/**}',
         '!{node_modules,node_modules/**}',
         '!package.json',
@@ -155,13 +149,13 @@ var build = {
 // Package task
 // Package build files without uploading
 gulp.task('package', ['build'], function() {
-    gulp.src(build.files, {base: '.'})
-        .pipe(gulp.dest('_build'));
+    gulp.src(deploy.files, {base: '.'})
+        .pipe(gulp.dest('__packaged'));
 });
 
 // Deploy task
 // Deploy build files to server, to either dev or production environment
-gulp.task('deploy', function() {
+gulp.task('deploy', ['build'], function() {
 
     // Must run with flag to define environment [dev|production]
     if(gutil.env.production) {
@@ -175,8 +169,8 @@ gulp.task('deploy', function() {
         });
     }
 
-    var stream = gulp.src(build.files, { base: '.', buffer: false }),
-        config = build[env],
+    var stream = gulp.src(deploy.files, { base: '.', buffer: false }),
+        config = deploy[env],
         conn = ftp.create(config);
 
     stream = stream
