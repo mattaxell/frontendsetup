@@ -1,24 +1,31 @@
 // Plugins
-var fs 		   = require('fs'),
-	gulp       = require('gulp'),
-	autoprefix = require('gulp-autoprefixer'),
-	minify     = require('gulp-clean-css'),
-	imagemin   = require('gulp-imagemin'),
-	include    = require('gulp-include'),
-	rename     = require('gulp-rename'),
-	sass       = require('gulp-sass'),
-	sourcemaps = require('gulp-sourcemaps'),
-	strip      = require('gulp-strip-debug'),
-	uglify     = require('gulp-uglify'),
-	gutil      = require('gulp-util'),
-	del        = require('del'),
-	ftp        = require('vinyl-ftp'),
-	notifier   = require('node-notifier'),
-	sequence   = require('run-sequence');
+var fs 		    = require('fs'),
+	gulp        = require('gulp'),
+	autoprefix  = require('gulp-autoprefixer'),
+	minify      = require('gulp-clean-css'),
+	imagemin    = require('gulp-imagemin'),
+	include     = require('gulp-include'),
+	rename      = require('gulp-rename'),
+	sass        = require('gulp-sass'),
+	sourcemaps  = require('gulp-sourcemaps'),
+	strip       = require('gulp-strip-debug'),
+	uglify      = require('gulp-uglify'),
+	gutil       = require('gulp-util'),
+	browserSync = require('browser-sync'),
+	del         = require('del'),
+	ftp         = require('vinyl-ftp'),
+	notifier    = require('node-notifier'),
+	sequence    = require('run-sequence');
 
 	if(fs.existsSync('./hostconfig.json')) {
 		hostconfig = require('./hostconfig.json');
 	}
+
+// Current root project folder
+// Personal workflow, used for creating proxy in BrowserSync task
+// Hostname must match that of directory directly inside either '__pp' or '__wp' folder
+var path = __dirname;
+var dir = path.match(/(\/__[a-z]{2}\/)([^\/]*)/)[2];
 
 // Errors
 var logErrors = function (error) {
@@ -97,6 +104,32 @@ gulp.task('default', function(callback) {
 		'watch',
 		callback
 	);
+});
+
+/* -------------------------
+	BrowserSync
+------------------------- */
+
+gulp.task('reload-styles', ['styles'], function() {
+	browserSync.reload('assets/css/main.css')
+});
+
+gulp.task('reload-scripts', ['scripts'], function() {
+	browserSync.reload('assets/scripts/functions.js')
+});
+
+gulp.task('serve', ['styles'], function() {
+
+	browserSync.init({
+		server: {
+			baseDir: "./"
+		}
+		// proxy: dir + ".dev"
+	});
+
+	gulp.watch("build/styles/**/*.scss", ['reload-styles'])
+	gulp.watch("build/scripts/**/*.js", ['reload-scripts'])
+	gulp.watch("*.php").on('change', browserSync.reload)
 });
 
 /* -------------------------

@@ -1,6 +1,7 @@
 {
 	"private": true,
 	"devDependencies": {
+        "browser-sync": "*",
 		"del": "*",
 		"gulp": "*",
 		"gulp-autoprefixer": "*",
