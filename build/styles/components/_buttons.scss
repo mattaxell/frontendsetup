@@ -1,0 +1,121 @@
+.button {
+	display: inline-block;
+	border: none;
+	border-radius: 0px;
+	font: {
+		family: $button-font;
+		weight: $button-font-weight;
+	}
+	text-decoration: none;
+
+	&--small {
+		@extend .button;
+		@include font-size(14);
+
+		height: 40px;
+		padding: 0 1.5em;
+		line-height: 40px;
+	}
+
+	&--large {
+		@extend .button;
+		@include font-size(14);
+
+		height: 50px;
+		padding: 0 1.5em;
+		line-height: 50px;
+
+		@include bp($small) {
+			@include font-size(18);
+
+			height: 60px;
+			padding: 0 2em;
+			line-height: 60px;
+		}
+	}
+
+	&--primary {
+		background: $primary-brand-color;
+		color: $white;
+
+		&:hover {
+			background: darken($primary-brand-color,10%);
+			color: $white;
+		}
+
+		&.button--ghost {
+			background: transparent;
+			border: 1px solid $primary-brand-color;
+			color: $primary-brand-color;
+
+			&:hover {
+				background: $primary-brand-color;
+				color: $white;
+			}
+		}
+	}
+
+	&--secondary {
+		background: $secondary-brand-color;
+		color: $white;
+
+		&:hover {
+			background: darken($secondary-brand-color,10%);
+			color: $white;
+		}
+
+		&.button--ghost {
+			background: transparent;
+			border: 1px solid $secondary-brand-color;
+			color: $secondary-brand-color;
+
+			&:hover {
+				background: $secondary-brand-color;
+				color: $white;
+			}
+		}
+	}
+
+	&--alt {
+		background: $alt-brand-color;
+		color: $white;
+
+		&:hover {
+			background: darken($alt-brand-color,10%);
+			color: $white;
+		}
+
+		&.button--ghost {
+			background: transparent;
+			border: 1px solid $alt-brand-color;
+			color: $alt-brand-color;
+
+			&:hover {
+				background: $alt-brand-color;
+				color: $white;
+			}
+		}
+	}
+
+	&--white {
+		background: $white;
+		color: $primary-brand-color;
+
+		&:hover {
+			background: $white;
+			color: $primary-brand-color;
+		}
+
+		&.button--ghost {
+			background: transparent;
+			border: 1px solid $white;
+			color: $white;
+
+			&:hover {
+				background: $white;
+				color: $primary-brand-color;
+			}
+		}
+	}
+
+}

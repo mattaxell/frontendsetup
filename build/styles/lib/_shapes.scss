@@ -1,0 +1,14 @@
+// Square
+@mixin square($size, $corners: null) {
+	display: block;
+	height: $size;
+	width: $size;
+	border-radius: $corners;
+	line-height: $size;
+	text-align: center;
+}
+
+// Circle
+@mixin circle($size) {
+	@include square($size, $corners: 50%);
+}

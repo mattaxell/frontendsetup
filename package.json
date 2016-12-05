@@ -1,29 +1,20 @@
 {
-    "private": true,
-    "devDependencies": {
-        "del": "*",
-        "gulp": "*",
-        "gulp-autoprefixer": "*",
-        "gulp-buster": "*",
-        "gulp-cache": "*",
-        "gulp-cachebust": "*",
-        "gulp-combine-mq": "*",
-        "gulp-concat": "*",
-        "gulp-hash": "*",
-        "gulp-imagemin": "*",
-        "gulp-include": "*",
-        "gulp-clean-css": "*",
-        "gulp-notify": "*",
-        "gulp-rename": "*",
-        "gulp-rev": "*",
-        "gulp-sass": "*",
-        "gulp-strip-debug": "*",
-        "gulp-uglify": "*",
-        "gulp-util": "*",
-        "imagemin-pngquant": "*",
-        "merge-stream": "*",
-        "node-notifier": "*",
-        "run-sequence": "*",
-        "vinyl-ftp": "*"
-    }
+	"private": true,
+	"devDependencies": {
+		"del": "*",
+		"gulp": "*",
+		"gulp-autoprefixer": "*",
+		"gulp-clean-css": "*",
+		"gulp-imagemin": "*",
+		"gulp-include": "*",
+		"gulp-rename": "*",
+		"gulp-sass": "*",
+		"gulp-sourcemaps": "*",
+		"gulp-strip-debug": "*",
+		"gulp-uglify": "*",
+		"gulp-util": "*",
+		"node-notifier": "*",
+		"run-sequence": "*",
+		"vinyl-ftp": "*"
+	}
 }

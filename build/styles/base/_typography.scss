@@ -1,0 +1,97 @@
+html {
+	font-size: 14px;
+
+	@include bp(769px) { font-size: 16px; }
+}
+
+body {
+	color: $base-text-color;
+	font: {
+		family: $body-font;
+		size: 100%;
+	}
+	line-height: $base-line-height;
+	-webkit-font-smoothing: antialiased;
+}
+
+// -------------------------------------------------- //
+// Headings
+// -------------------------------------------------- //
+
+h1,h2,h3,h4,h5,h6 {
+	margin-bottom: 1em;
+	color: $heading-color;
+}
+
+h1 {
+	@include font-size(32);
+
+	font-weight: $body-font-bold;
+	line-height: 1.2;
+}
+
+h2 {
+	@include font-size(28);
+
+	line-height: 1.125;
+}
+
+h3 {
+	@include font-size(24);
+
+	line-height: 1.2;
+}
+
+h4 {
+	@include font-size(20);
+
+	line-height: 1.2;
+}
+
+h5 {
+	@include font-size(18);
+
+	line-height: 1.25;
+}
+
+h6 {
+	@include font-size(16);
+}
+
+// -------------------------------------------------- //
+// Paragraphs
+// -------------------------------------------------- //
+
+.lead {
+	@include font-size(18);
+
+	color: $secondary-brand-color;
+	font: {
+		family: $heading-font;
+		weight: $heading-font-weight;
+	}
+}
+
+// -------------------------------------------------- //
+// Links
+// -------------------------------------------------- //
+
+a {
+	color: $link-color;
+	font-weight: $link-font-weight;
+	text-decoration: underline;
+
+	&:hover {
+		color: $link-hover-color;
+		transition: all 300ms ease;
+	}
+}
+
+// -------------------------------------------------- //
+// Blockquotes
+// -------------------------------------------------- //
+
+blockquote {
+	margin-left: 5%;
+	margin-right: 5%;
+}

@@ -1,0 +1,20 @@
+ul,ol {
+	padding: 0 0 0 40px;
+
+	nav & { padding: 0; }
+	article & { margin-bottom: 1em; }
+
+	li {
+		margin-bottom: 0.25em;
+
+		ul {
+			margin-top: 1em;
+			margin-bottom: 1em;
+		}
+
+		nav & {
+			list-style: none;
+			margin-bottom: 0;
+		}
+	}
+}

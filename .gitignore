@@ -9,13 +9,10 @@ npm-debug.log
 /vendor
 
 # build
-/assets/css
-/assets/js/*.min.*
-/public
+/assets/**/*
 
 # generated directories
-_deploy
-_build
+__packaged
 
 # ftp
 hostconfig.json
