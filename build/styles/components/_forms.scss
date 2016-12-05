@@ -1,14 +1,14 @@
 fieldset {
-    margin: 0;
-    padding: 0;
-    border: none;
+	margin: 0;
+	padding: 0;
+	border: none;
 }
 
 // Labels
 label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: $body-font-bold;
+	display: block;
+	margin-bottom: 1em;
+	font-weight: $body-font-bold;
 }
 
 // Inputs and textareas
@@ -18,46 +18,51 @@ input[type="telephone"],
 input[type="password"],
 textarea,
 select {
-    width: 100%;
-    padding: 15px;
-    background: transparent;
-    border: 1px solid $light-grey;
-    border-radius: 0;
-    color: $base-text-color;
+	width: 100%;
+	padding: 1.5em;
+	border: none;
+	background: transparent;
+	border: none;
+	border-radius: 0;
+	color: $base-text-color;
 
-    &:focus {
-        border-color: $primary-brand-color;
-        outline: none;
-    }
+	&:focus {
+		outline: none;
+	}
 }
 
 // Select fields
 .field--select span {
-    position: relative;
-    display: block;
+	position: relative;
+	display: block;
 
-    &:before {
-        content: "";
-        position: absolute;
-        top: 50%; right: 15px;
-        display: block;
-        width: 0;
-        height: 0;
-        border: {
-            style: solid;
-            width: 5px 5px 0 5px;
-            color: $base-text-color transparent transparent transparent;
-        }
-        transform: translateY(-50%);
-        z-index: -10;
-    }
+	&:before {
+		content: "";
+		position: absolute;
+		top: 50%; right: 15px;
+		display: block;
+		width: 0;
+		height: 0;
+		border: {
+			style: solid;
+			width: 5px 5px 0 5px;
+			color: $base-text-color transparent transparent transparent;
+		}
+		transform: translateY(-50%);
+		z-index: -10;
+	}
 }
 
 select {
-    appearance: none;
+	appearance: none;
 }
 
 // Submit button
 input[type="submit"] {
-    border: none;
+	@extend .button;
+	@extend .button--small;
+	@extend .button--primary;
+
+	border: none;
+	cursor: pointer;
 }

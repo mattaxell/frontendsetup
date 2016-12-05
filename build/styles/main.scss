@@ -1,23 +1,30 @@
-@import "vendor/font-awesome";
-
-@import "utils/variables";
-@import "utils/theme";
-@import "utils/functions";
-@import "utils/mixins";
-@import "utils/helpers";
-
-@import "base/reset";
-@import "base/typography";
-
-@import "partials/layout";
-@import "partials/navigation";
-@import "partials/header";
-@import "partials/footer";
-
-@import "components/buttons";
-@import "components/forms";
-@import "components/lists";
-@import "components/tables";
-@import "components/alerts";
-
-@import "pages/home";
+@import 'vendor/font-awesome',
+		// Lib
+		'lib/layout',
+		'lib/breakpoints',
+		'lib/colours',
+		'lib/functions',
+		'lib/gradients',
+		'lib/icons',
+		'lib/misc',
+		'lib/shapes',
+		'lib/typography',
+		// Animations
+		'animations/config',
+		// Base
+		'base/reset',
+		'base/layout',
+		'base/grid',
+		'base/typography',
+		// Components
+		'components/alerts',
+		'components/buttons',
+		'components/forms',
+		'components/lists',
+		'components/tables',
+		// Partials
+		'partials/header',
+		'partials/navigation',
+		'partials/footer',
+		// Pages
+		'pages/home';

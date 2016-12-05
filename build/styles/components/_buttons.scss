@@ -1,36 +1,36 @@
 .button {
 	display: inline-block;
 	border: none;
-	border-radius: 2px;
+	border-radius: 0px;
 	font: {
 		family: $button-font;
 		weight: $button-font-weight;
 	}
-	text-transform: uppercase;
 	text-decoration: none;
 
 	&--small {
 		@extend .button;
+		@include font-size(14);
 
 		height: 40px;
-		padding: 0 30px;
-		font-size: .875em;
+		padding: 0 1.5em;
 		line-height: 40px;
 	}
 
 	&--large {
 		@extend .button;
+		@include font-size(14);
 
-		height: 60px;
-		padding: 0 40px;
-		font-size: 1.125em;
-		line-height: 60px;
+		height: 50px;
+		padding: 0 1.5em;
+		line-height: 50px;
 
-		@include bp($xsmall) {
-			height: 40px;
-			padding: 0 30px;
-			font-size: .875em;
-			line-height: 40px;
+		@include bp($small) {
+			@include font-size(18);
+
+			height: 60px;
+			padding: 0 2em;
+			line-height: 60px;
 		}
 	}
 
@@ -39,7 +39,7 @@
 		color: $white;
 
 		&:hover {
-			background: lighten($primary-brand-color,10%);
+			background: darken($primary-brand-color,10%);
 			color: $white;
 		}
 
@@ -60,7 +60,7 @@
 		color: $white;
 
 		&:hover {
-			background: lighten($secondary-brand-color,10%);
+			background: darken($secondary-brand-color,10%);
 			color: $white;
 		}
 
@@ -81,7 +81,7 @@
 		color: $white;
 
 		&:hover {
-			background: lighten($alt-brand-color,10%);
+			background: darken($alt-brand-color,10%);
 			color: $white;
 		}
 
