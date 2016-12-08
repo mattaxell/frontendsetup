@@ -16,45 +16,43 @@ input[type="text"],
 input[type="email"],
 input[type="telephone"],
 input[type="password"],
-textarea,
-select {
+textarea {
 	width: 100%;
-	padding: 1.5em;
+	padding: 1em;
 	border: none;
 	background: transparent;
-	border: none;
+	border: solid 1px $light-grey;
 	border-radius: 0;
 	color: $base-text-color;
+	font: {
+		family: $default-sans;
+		size: 1em;
+	}
 
 	&:focus {
 		outline: none;
 	}
 }
 
-// Select fields
-.field--select span {
+// Custom select fields
+// A more native appearance for select boxes
+.field--select {
 	position: relative;
-	display: block;
+	max-width: 50%;
+
+	select {
+		@extend input[type="text"];
+
+		appearance: none;
+	}
 
 	&:before {
+		@include align(right, center, 1em);
+		@include arrow(down, 5px, $base-text-color);
+
 		content: "";
-		position: absolute;
-		top: 50%; right: 15px;
-		display: block;
-		width: 0;
-		height: 0;
-		border: {
-			style: solid;
-			width: 5px 5px 0 5px;
-			color: $base-text-color transparent transparent transparent;
-		}
-		transform: translateY(-50%);
 		z-index: -10;
 	}
-}
-
-select {
-	appearance: none;
 }
 
 // Submit button
@@ -65,4 +63,5 @@ input[type="submit"] {
 
 	border: none;
 	cursor: pointer;
+	appearance: none;
 }
