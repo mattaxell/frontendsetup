@@ -60,11 +60,11 @@ gulp.task('styles', function() {
 	var production = this.seq.indexOf('build') != -1;
 
 	return gulp.src('build/styles/**/*.scss')
-		.pipe(sourcemaps.init())
+		.pipe(production ? gutil.noop() : sourcemaps.init())
 		.pipe(sass({outputStyle: 'compact'})).on('error', logErrors)
 		.pipe(autoprefix({browsers: ['last 2 versions', '> 5%', 'Firefox ESR']}))
 		.pipe(production ? minify() : gutil.noop())
-		.pipe(sourcemaps.write())
+		.pipe(production ? gutil.noop() : sourcemaps.write())
 		.pipe(gulp.dest('assets/css'))
 });
 
@@ -121,14 +121,14 @@ gulp.task('reload-scripts', ['scripts'], function() {
 gulp.task('serve', ['styles'], function() {
 
 	browserSync.init({
-		server: {
-			baseDir: "./"
-		}
-		// proxy: dir + ".dev"
+		// server: {
+		// 	baseDir: "./"
+		// }
+		proxy: dir + ".dev"
 	});
 
 	gulp.watch("build/styles/**/*.scss", ['reload-styles'])
-	gulp.watch("build/scripts/**/*.js", ['reload-scripts'])
+	gulp.watch("build/js/**/*.js", ['reload-scripts'])
 	gulp.watch("*.php").on('change', browserSync.reload)
 });
 
