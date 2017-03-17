@@ -9,7 +9,7 @@ npm-debug.log
 /vendor
 
 # build
-/assets/**/*
+/dist/**/*
 
 # generated directories
 __packaged

@@ -1,25 +1,27 @@
-// Plugins
-var fs 		    = require('fs'),
-	gulp        = require('gulp'),
-	autoprefix  = require('gulp-autoprefixer'),
-	minify      = require('gulp-clean-css'),
-	imagemin    = require('gulp-imagemin'),
-	include     = require('gulp-include'),
-	rename      = require('gulp-rename'),
-	sass        = require('gulp-sass'),
-	sourcemaps  = require('gulp-sourcemaps'),
-	strip       = require('gulp-strip-debug'),
-	uglify      = require('gulp-uglify'),
-	gutil       = require('gulp-util'),
-	browserSync = require('browser-sync'),
-	del         = require('del'),
-	ftp         = require('vinyl-ftp'),
-	notifier    = require('node-notifier'),
-	sequence    = require('run-sequence');
+/* -------------------------
+	Plugins
+------------------------- */
 
-	if(fs.existsSync('./hostconfig.json')) {
-		hostconfig = require('./hostconfig.json');
-	}
+var fs 		      = require('fs'),
+	gulp          = require('gulp'),
+	autoprefixer  = require('gulp-autoprefixer'),
+	cache		  = require('gulp-cache'),
+	minify        = require('gulp-clean-css'),
+	imagemin      = require('gulp-imagemin'),
+	include       = require('gulp-include'),
+	notify        = require('gulp-notify'),
+	rename        = require('gulp-rename'),
+	sass          = require('gulp-sass'),
+	sourcemaps    = require('gulp-sourcemaps'),
+	strip         = require('gulp-strip-debug'),
+	uglify        = require('gulp-uglify'),
+	gutil         = require('gulp-util'),
+	browserSync   = require('browser-sync'),
+	del           = require('del');
+
+/* -------------------------
+	General
+------------------------- */
 
 // Current root project folder
 // Personal workflow, used for creating proxy in BrowserSync task
@@ -28,17 +30,38 @@ var path = __dirname;
 var dir = path.match(/(\/__[a-z]{2}\/)([^\/]*)/)[2];
 
 // Errors
-var logErrors = function (error) {
-	notifier.notify({
-		title: 'Gulp Task Error',
-		message: 'Check the console.'
-	});
+var reportError = function (error) {
+	var lineNumber = (error.lineNumber) ? 'LINE ' + error.lineNumber + ' -- ' : '';
 
-	console.log('------------------------------------------------------------');
-	console.log('Description: ' + error.messageOriginal);
-	console.log('In file: ' + error.relativePath + ', on line: ' + error.line );
-	console.log('------------------------------------------------------------');
+	notify({
+		title: 'Task Failed [' + error.plugin + ']',
+		message: lineNumber + 'See console.',
+		sound: 'Sosumi' // See: https://github.com/mikaelbr/node-notifier#all-notification-options-with-their-defaults
+	}).write(error);
 
+	gutil.beep(); // Beep 'sosumi' again
+
+	// Inspect the error object
+	//console.log(error);
+
+	// Easy error reporting
+	//console.log(error.toString());
+
+	// Pretty error reporting
+	var report = '';
+	var chalk = gutil.colors.white.bgRed;
+
+	report += '------------------------------------------------------------\n';
+	report += chalk('TASK:') + ' [' + error.plugin + ']\n';
+	report += chalk('PROB:') + ' ' + error.messageOriginal + '\n';
+	report += chalk('FILE:') + ' ' + error.relativePath + '\n';
+	report += chalk('LINE:') + ' ' + error.line + '\n';
+	report += '------------------------------------------------------------';
+	if (error.lineNumber) { report += chalk('LINE:') + ' ' + error.lineNumber + '\n'; }
+	if (error.fileName)   { report += chalk('FILE:') + ' ' + error.fileName + '\n'; }
+	console.error(report);
+
+	// Prevent the 'watch' task from stopping
 	this.emit('end');
 }
 
@@ -46,11 +69,12 @@ var logErrors = function (error) {
 	Tasks
 ------------------------- */
 
+// Clean
 gulp.task('clean', function(){
 	return del([
 		'__packaged',
 		'__packaged/**',
-		'assets/**',
+		'dist/**',
 	]);
 });
 
@@ -59,13 +83,17 @@ gulp.task('styles', function() {
 
 	var production = this.seq.indexOf('build') != -1;
 
-	return gulp.src('build/styles/**/*.scss')
+	return gulp.src('src/styles/**/*.scss')
 		.pipe(production ? gutil.noop() : sourcemaps.init())
-		.pipe(sass({outputStyle: 'compact'})).on('error', logErrors)
-		.pipe(autoprefix({browsers: ['last 2 versions', '> 5%', 'Firefox ESR']}))
+		.pipe(sass({outputStyle: 'compact'})).on('error', reportError)
+		.pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
 		.pipe(production ? minify() : gutil.noop())
 		.pipe(production ? gutil.noop() : sourcemaps.write())
-		.pipe(gulp.dest('assets/css'))
+		.pipe(rename({
+			suffix: '.min'
+		}))
+		.pipe(gulp.dest('dist/css'))
+		.pipe(notify({ message: 'Styles task complete' }));
 });
 
 // Scripts
@@ -73,37 +101,37 @@ gulp.task('scripts', function() {
 
 	var production = this.seq.indexOf('build') != -1;
 
-	return gulp.src('build/js/*.js')
+	return gulp.src('src/js/*.js')
 		.pipe(include()).on('error', console.log)
 		.pipe(production ? strip() : gutil.noop())
 		.pipe(production ? uglify() : gutil.noop())
-		.pipe(gulp.dest('assets/js'));
+		.pipe(gulp.dest('dist/js'))
+		.pipe(notify({ message: 'Scripts task complete' }));
 });
 
 // Images
 gulp.task('images', function(){
-	return gulp.src('build/img/**/*')
-		.pipe(imagemin({
+	return gulp.src('src/img/**/*')
+		.pipe(cache(imagemin({
+			optimizationLevel: 5,
 			progressive: true,
+			interlaced: true,
 			svgoPlugins: [{removeViewBox: false}]
-		}))
-		.pipe(gulp.dest('assets/img'));
+		})))
+		.pipe(gulp.dest('dist/img'))
+		.pipe(notify({ message: 'Image task complete' }));
 });
 
 // Watch
 gulp.task('watch', function() {
-	gulp.watch('build/styles/**/*.scss', ['styles']);
-	gulp.watch('build/js/**/*.js', ['scripts']);
-	gulp.watch('build/img/**/*', ['images']);
+	gulp.watch('src/styles/**/*.scss', ['styles']);
+	gulp.watch('src/js/**/*.js', ['scripts']);
+	gulp.watch('src/img/**/*', ['images']);
 });
 
 // Default
-gulp.task('default', function(callback) {
-	sequence(
-		['styles', 'scripts', 'images'],
-		'watch',
-		callback
-	);
+gulp.task('default', ['styles', 'scripts', 'images'], function() {
+	gulp.start('watch');
 });
 
 /* -------------------------
@@ -111,11 +139,11 @@ gulp.task('default', function(callback) {
 ------------------------- */
 
 gulp.task('reload-styles', ['styles'], function() {
-	browserSync.reload('assets/css/main.css')
+	browserSync.reload('dist/css/main.css')
 });
 
 gulp.task('reload-scripts', ['scripts'], function() {
-	browserSync.reload('assets/scripts/functions.js')
+	browserSync.reload('dist/scripts/functions.js')
 });
 
 gulp.task('serve', ['styles'], function() {
@@ -127,8 +155,8 @@ gulp.task('serve', ['styles'], function() {
 		proxy: dir + ".dev"
 	});
 
-	gulp.watch("build/styles/**/*.scss", ['reload-styles'])
-	gulp.watch("build/js/**/*.js", ['reload-scripts'])
+	gulp.watch("src/styles/**/*.scss", ['reload-styles'])
+	gulp.watch("src/js/**/*.js", ['reload-scripts'])
 	gulp.watch("*.php").on('change', browserSync.reload)
 });
 
@@ -136,12 +164,8 @@ gulp.task('serve', ['styles'], function() {
 	Build
 ------------------------- */
 
-gulp.task('build', function(callback) {
-	sequence(
-		'clean',
-		['styles', 'scripts', 'images'],
-		callback
-	);
+gulp.task('build', ['clean'], function() {
+	gulp.start('styles', 'scripts', 'images');
 });
 
 /* -------------------------
@@ -154,7 +178,7 @@ var deploy = {
 		'**/*',
 		'!{__packaged,__packaged/**}',
 		'!{vendor,vendor/**}',
-		'!{build,build/**}',
+		'!{src,src/**}',
 		'!{templates,templates/**}',
 		'!{node_modules,node_modules/**}',
 		'!package.json',
@@ -165,55 +189,11 @@ var deploy = {
 		'!README.md'
 	]
 
-	// dev: {
-	// 	host: hostconfig.dev.host,
-	// 	user: hostconfig.dev.user,
-	// 	password: hostconfig.dev.password,
-	// 	destination: hostconfig.dev.destination,
-	// 	log: gutil.log
-	// },
-
-	// production: {
-	// 	host: hostconfig.production.host,
-	// 	user: hostconfig.production.user,
-	// 	password: hostconfig.production.password,
-	// 	destination: hostconfig.production.destination,
-	// 	log: gutil.log
-	// }
-
 }
 
 // Package task
-// Package build files without uploading
+// Package build files ready for uploading
 gulp.task('package', ['build'], function() {
 	gulp.src(deploy.files, {base: '.'})
 		.pipe(gulp.dest('__packaged'));
 });
-
-// Deploy task
-// Deploy build files to server, to either dev or production environment
-gulp.task('deploy', ['build'], function() {
-
-	// Must run with flag to define environment [dev|production]
-	if(gutil.env.production) {
-		env = 'production';
-	} else if(gutil.env.dev) {
-		env = 'dev';
-	} else {
-		throw new gutil.PluginError({
-			plugin: 'Environment',
-			message: 'Please define development environment (dev|production)'
-		});
-	}
-
-	var stream = gulp.src(deploy.files, { base: '.', buffer: false }),
-		config = deploy[env],
-		conn = ftp.create(config);
-
-	stream = stream
-		.pipe(conn.newer(config.destination))
-		.pipe(conn.dest(config.destination));
-
-	return stream;
-
-})

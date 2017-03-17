@@ -1,21 +1,20 @@
 {
 	"private": true,
 	"devDependencies": {
-        "browser-sync": "*",
-		"del": "*",
-		"gulp": "*",
+        "browser-sync":      "*",
+		"del":               "*",
+		"gulp":              "*",
 		"gulp-autoprefixer": "*",
-		"gulp-clean-css": "*",
-		"gulp-imagemin": "*",
-		"gulp-include": "*",
-		"gulp-rename": "*",
-		"gulp-sass": "*",
-		"gulp-sourcemaps": "*",
-		"gulp-strip-debug": "*",
-		"gulp-uglify": "*",
-		"gulp-util": "*",
-		"node-notifier": "*",
-		"run-sequence": "*",
-		"vinyl-ftp": "*"
+		"gulp-cache":		 "*",
+		"gulp-clean-css":    "*",
+		"gulp-imagemin":     "*",
+		"gulp-include":      "*",
+		"gulp-notify":       "*",
+		"gulp-rename":       "*",
+		"gulp-sass":         "*",
+		"gulp-sourcemaps":   "*",
+		"gulp-strip-debug":  "*",
+		"gulp-uglify":       "*",
+		"gulp-util":         "*"
 	}
 }
