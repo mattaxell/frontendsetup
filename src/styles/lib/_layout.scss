@@ -93,6 +93,20 @@ $mobile-gutter: 30px;
 	padding: 0 $mobile-gutter;
 
 	@include bp($site-width-bg) {
-		padding: 0 $gutter;
+		padding: 0;
+	}
+}
+
+@mixin show($bp, $display: block) {
+	display: none;
+
+	@include bp($bp) {
+		display: $display;
+	}
+}
+
+@mixin hide($bp) {
+	@include bp($bp) {
+		display: none;
 	}
 }

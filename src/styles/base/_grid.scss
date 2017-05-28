@@ -13,33 +13,25 @@ $grid-gutter:  24px;
 	$width: ($cols / $grid-columns) * 100%;
 
 	width: calc(#{$width} - #{$gutter});
-
-	@if $margin {
-		margin-right: $gutter / 2;
-		margin-left: $gutter / 2;
-	}
-}
-
-// Generate classes
-@for $i from 1 to $grid-columns + 1 {
-	.grid--#{$i} {
-		@include grid($i);
-
-		&\@lg { @include bp($large) { @include grid($i, $margin: false); }}
-		&\@md { @include bp($medium) { @include grid($i, $margin: false); }}
-		&\@sm { @include bp($small) { @include grid($i, $margin: false); }}
-		&\@xs { @include bp($xsmall) { @include grid($i, $margin: false); }}
-	}
 }
 
 .grid {
 	float: left;
+	width: calc(100% - #{$grid-gutter});
+	margin-right: $grid-gutter / 2;
+	margin-left: $grid-gutter / 2;
 
-	&--12 {
-		&\@lg { @include bp($large) { float: none } }
-		&\@md { @include bp($medium) { float: none } }
-		&\@sm { @include bp($small) { float: none } }
-		&\@xs { @include bp($xsmall) { float: none } }
+	// Generate classes
+	@for $i from 1 to $grid-columns + 1 {
+		&--#{$i} {
+			@include grid($i);
+
+			&\@xs { @include bp($xsmall) { @include grid($i, $margin: false); }}
+			&\@sm { @include bp($small) { @include grid($i, $margin: false); }}
+			&\@md { @include bp($medium) { @include grid($i, $margin: false); }}
+			&\@lg { @include bp($large) { @include grid($i, $margin: false); }}
+			&\@xl { @include bp($x-large) { @include grid($i, $margin: false); }}
+		}
 	}
 
 	&--centered {
