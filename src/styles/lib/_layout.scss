@@ -90,11 +90,11 @@ $mobile-gutter: 30px;
 		left: auto;
 		right: auto;
 	}
-	padding: 0 $mobile-gutter;
+	padding: 0 20px;
 
-	@include bp($site-width-bg) {
-		padding: 0;
-	}
+	@include bp($tiny) { padding: 0 20px; }
+	@include bp($site-width) { padding: 0 50px; }
+	@include bp(1300px) { padding: 0; } ;
 }
 
 @mixin show($bp, $display: block) {
