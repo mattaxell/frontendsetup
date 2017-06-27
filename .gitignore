@@ -1,24 +1,6 @@
-!.gitignore
-!README.md
-
-# NPM
+browserSync.json
 node_modules
-npm-debug.log
-
-# composer
-/vendor
-
-# build
-/dist/**/*
-
-# generated directories
 __packaged
-
-# ftp
-hostconfig.json
-
-# generic
 .DS_Store
-.sass-cache
-*.sublime*
-!.gitkeep
+*.log
+dist

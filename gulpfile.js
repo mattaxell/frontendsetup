@@ -25,12 +25,6 @@ var fs 		      = require('fs'),
 	General
 ------------------------- */
 
-// Current root project folder
-// Personal workflow, used for creating proxy in BrowserSync task
-// Hostname must match that of directory directly inside either '__pp' or '__wp' folder
-var path = __dirname;
-var dir = path.match(/(\/__[a-z]{2}\/)([^\/]*)/)[2];
-
 // Errors
 var reportError = function (error) {
 	var lineNumber = (error.lineNumber) ? 'LINE ' + error.lineNumber + ' -- ' : '';
@@ -65,7 +59,7 @@ var reportError = function (error) {
 
 	// Prevent the 'watch' task from stopping
 	this.emit('end');
-}
+};
 
 /* -------------------------
 	Tasks
@@ -139,7 +133,7 @@ gulp.task('watch', function() {
 });
 
 // Default
-gulp.task('default', ['styles', 'scripts', 'images'], function() {
+gulp.task('default', ['styles', 'scripts', 'images', 'fonts'], function() {
 	gulp.start('watch');
 });
 
@@ -148,25 +142,29 @@ gulp.task('default', ['styles', 'scripts', 'images'], function() {
 ------------------------- */
 
 gulp.task('reload-styles', ['styles'], function() {
-	browserSync.reload('dist/css/main.min.css')
+	browserSync.reload('dist/css/main.min.css');
 });
 
 gulp.task('reload-scripts', ['scripts'], function() {
-	browserSync.reload('dist/scripts/main.js')
+	browserSync.reload('dist/scripts/main.js');
 });
 
 gulp.task('serve', ['default'], function() {
+	var opts;
 
-	browserSync.init({
-		// server: {
-		// 	baseDir: "./"
-		// }
-		proxy: dir + ".dev"
-	});
+	try {
+		opts = require('./browserSync.json');
+	} catch (error) {
+		return;
+	}
 
-	gulp.watch("src/styles/**/*.scss", ['reload-styles'])
-	gulp.watch("src/js/**/*.js", ['reload-scripts'])
-	gulp.watch("./**/*.html").on('change', browserSync.reload)
+	browserSync.init(Object.assign(opts, {
+		logFileChanges: false
+	}));
+
+	gulp.watch('dist/css/main.min.css', ['reload-styles']);
+	gulp.watch('dist/scripts/main.js', ['reload-scripts']);
+	gulp.watch('**/*.php').on('change', browserSync.reload);
 });
 
 /* -------------------------
@@ -177,7 +175,7 @@ gulp.task('build', function(cb) {
 	sequence(
 		'clean',
 		['styles', 'scripts', 'images', 'fonts']
-	)(cb)
+	)(cb);
 });
 
 /* -------------------------
@@ -194,14 +192,14 @@ var deploy = {
 		'!{templates,templates/**}',
 		'!{node_modules,node_modules/**}',
 		'!package.json',
-		'!hostconfig.json',
+		'!browserSync.json',
 		'!gulpfile.js',
 		'!composer.json',
 		'!composer.lock',
 		'!README.md'
 	]
 
-}
+};
 
 // Package task
 // Package build files ready for uploading
